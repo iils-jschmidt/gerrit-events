@@ -163,7 +163,7 @@ public class Change implements GerritJsonDTO {
      * Is this change private.
      */
     // CS IGNORE MemberName FOR NEXT 1 LINES. REASON: Private is a reserved keyword.
-    private boolean _private;
+    private boolean isPrivate;
 
     /**
      * Default constructor.
@@ -193,7 +193,7 @@ public class Change implements GerritJsonDTO {
             owner = new Account(json.getAsJsonObject(OWNER));
         }
         if (json.has(COMMENTS)) {
-            comments = new ArrayList<Comment>();
+            comments = new ArrayList<>();
             JsonArray eventApprovals = json.getAsJsonArray(COMMENTS);
             for (int i = 0; i < eventApprovals.size(); i++) {
                 comments.add(new Comment(eventApprovals.get(i).getAsJsonObject()));
@@ -211,7 +211,7 @@ public class Change implements GerritJsonDTO {
 
         if (json.has(HASHTAGS)) {
             JsonArray tags = json.getAsJsonArray(HASHTAGS);
-            hashtags = new ArrayList<String>(tags.size());
+            hashtags = new ArrayList<>(tags.size());
             for (int i = 0; i < tags.size(); i++) {
                 hashtags.add(tags.get(i).getAsString());
             }
@@ -222,7 +222,7 @@ public class Change implements GerritJsonDTO {
         url = getString(json, URL);
         status = GerritChangeStatus.fromString(getString(json, STATUS));
         wip = getBoolean(json, WIP, false);
-        _private = getBoolean(json, PRIVATE, false);
+        isPrivate = getBoolean(json, PRIVATE, false);
     }
 
     /**
@@ -483,7 +483,7 @@ public class Change implements GerritJsonDTO {
      * @return change is in private state.
      */
     public boolean isPrivate() {
-        return _private;
+        return isPrivate;
     }
 
     /**
@@ -493,7 +493,7 @@ public class Change implements GerritJsonDTO {
     // CS IGNORE HiddenField FOR NEXT 2 LINES. REASON: Private is a reserved keyword.
     // CS IGNORE ParameterName FOR NEXT 1 LINES. REASON: Private is a reserved keyword.
     public void setPrivate(boolean _private) {
-        this._private = _private;
+        this.isPrivate = _private;
     }
 
     @Override

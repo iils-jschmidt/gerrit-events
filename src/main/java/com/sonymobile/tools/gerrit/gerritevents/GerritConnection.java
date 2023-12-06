@@ -28,6 +28,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.nio.CharBuffer;
+import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
@@ -93,7 +94,7 @@ public class GerritConnection extends Thread implements Connector {
     private int reconnectCallCount = 0;
     private GerritHandler handler;
     private AuthenticationUpdater authenticationUpdater = null;
-    private final Set<ConnectionListener> listeners = new CopyOnWriteArraySet<ConnectionListener>();
+    private final Set<ConnectionListener> listeners = new CopyOnWriteArraySet<>();
     private int sshRxBufferSize = SSH_RX_BUFFER_SIZE;
     private StringBuilder eventBuffer = null;
 
@@ -355,7 +356,7 @@ public class GerritConnection extends Thread implements Connector {
                 eventBuffer = null;
                 line = eventString;
             }
-            line.trim();
+            line = line.trim();
         } else {
             if (cb.length() > 0) {
                 if (cb.length() == cb.capacity()) {
@@ -398,7 +399,7 @@ public class GerritConnection extends Thread implements Connector {
                 if (channel == null) {
                     throw new IOException("Cannot open SSH channel.");
                 }
-                Reader reader = new InputStreamReader(channel.getInputStream(), "utf-8");
+                Reader reader = new InputStreamReader(channel.getInputStream(), StandardCharsets.UTF_8);
                 channel.connect();
                 CharBuffer cb = CharBuffer.allocate(sshRxBufferSize);
                 notifyConnectionEstablished();

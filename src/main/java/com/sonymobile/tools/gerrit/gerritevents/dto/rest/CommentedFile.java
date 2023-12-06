@@ -45,7 +45,7 @@ public class CommentedFile {
      */
     public CommentedFile(String fileName) {
         this.fileName = fileName;
-        this.comments = new HashSet<LineComment>();
+        this.comments = new HashSet<>();
     }
 
     /**

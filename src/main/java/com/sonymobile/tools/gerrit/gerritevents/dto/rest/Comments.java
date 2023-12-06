@@ -35,7 +35,7 @@ import java.util.Map;
  */
 public class Comments {
 
-    final Map<String, List<LineComment>> comments = new HashMap<String, List<LineComment>>();
+    final Map<String, List<LineComment>> theComments = new HashMap<>();
 
     /**
      * Standard Constructor.
@@ -44,10 +44,10 @@ public class Comments {
      */
     public Comments(List<CommentedFile> commentedFiles) {
         for (CommentedFile file : commentedFiles) {
-            if (!comments.containsKey(file.getFileName())) {
-                comments.put(file.getFileName(), new ArrayList<LineComment>());
+            if (!theComments.containsKey(file.getFileName())) {
+                theComments.put(file.getFileName(), new ArrayList<>());
             }
-            comments.get(file.getFileName()).addAll(file.getLineComments());
+            theComments.get(file.getFileName()).addAll(file.getLineComments());
         }
     }
 

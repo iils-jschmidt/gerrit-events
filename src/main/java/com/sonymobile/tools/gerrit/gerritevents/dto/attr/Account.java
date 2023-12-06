@@ -153,7 +153,7 @@ public class Account implements GerritJsonDTO {
         } else if (email.isEmpty() || name.isEmpty()) {
             return "";
         } else {
-            StringBuffer str = new StringBuffer("\"");
+            StringBuilder str = new StringBuilder("\"");
             str.append(name).append("\" <").append(email).append(">");
             return str.toString();
         }

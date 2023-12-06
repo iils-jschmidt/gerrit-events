@@ -28,7 +28,6 @@ import com.sonymobile.tools.gerrit.gerritevents.dto.attr.Change;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 
@@ -71,13 +70,7 @@ public class ChangeId {
      * @return the url part.
      */
     public String asUrlPart() {
-        try {
             return encode(projectName) + "~" + encode(branchName) + "~" + id;
-        } catch (UnsupportedEncodingException e) {
-            String parameter = projectName + "~" + branchName + "~" + id;
-            logger.error("Failed to encode ChangeId {}, falling back to unencoded {}", this, parameter);
-            return parameter;
-        }
     }
 
     /**
@@ -87,7 +80,7 @@ public class ChangeId {
      * @return Encoded string
      * @throws UnsupportedEncodingException if UTF-8 is unsupported, handled in caller for better log message
      */
-    private String encode(final String s) throws UnsupportedEncodingException {
+    private String encode(final String s) {
         return URLEncoder.encode(s, StandardCharsets.UTF_8);
     }
 

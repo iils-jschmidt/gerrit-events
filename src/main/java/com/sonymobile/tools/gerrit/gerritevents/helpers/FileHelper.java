@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -45,7 +46,7 @@ public final class FileHelper {
                         int numberOfFiles = changedFiles.size();
 
                         if (numberOfFiles > 0) {
-                            List<String> files = new ArrayList<String>(numberOfFiles);
+                            List<String> files = new ArrayList<>(numberOfFiles);
                             for (int i = 0; i < changedFiles.size(); i++) {
                                 JsonObject file = changedFiles.get(i).getAsJsonObject();
                                 files.add(file.get("file").getAsString());
@@ -62,6 +63,6 @@ public final class FileHelper {
         } catch (GerritQueryException e) {
             logger.error("Bad query. ", e);
         }
-        return null;
+        return Collections.emptyList();
     }
 }

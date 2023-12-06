@@ -371,7 +371,7 @@ public class GerritQueryHandler {
         if (getCommitMessage) {
             str.append(" --commit-message");
         }
-        str.append(" \"").append(queryString.replace((CharSequence)"\"", (CharSequence)"\\\"")).append("\"");
+        str.append(" \"").append(queryString.replace("\"", "\\\"")).append("\"");
 
         SshConnection ssh = null;
         try {

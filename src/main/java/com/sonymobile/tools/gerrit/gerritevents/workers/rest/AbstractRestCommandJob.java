@@ -84,7 +84,7 @@ public abstract class AbstractRestCommandJob implements Runnable {
      * @param altLogger alternative stream to also write log output to (ex: a build log)
      * @param event     event
      */
-    public AbstractRestCommandJob(RestConnectionConfig config, PrintStream altLogger, ChangeBasedEvent event) {
+    protected AbstractRestCommandJob(RestConnectionConfig config, PrintStream altLogger, ChangeBasedEvent event) {
         this.config = config;
         this.altLogger = altLogger;
         this.event = event;

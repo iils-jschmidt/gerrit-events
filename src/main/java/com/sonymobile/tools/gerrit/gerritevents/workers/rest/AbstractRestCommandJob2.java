@@ -95,7 +95,7 @@ public abstract class AbstractRestCommandJob2 implements Callable<String> {
      * @param altLogger alternative stream to also write log output to (ex: a build log)
      * @param event     event
      */
-    public AbstractRestCommandJob2(RestConnectionConfig config, PrintStream altLogger, ChangeBasedEvent event) {
+    protected AbstractRestCommandJob2(RestConnectionConfig config, PrintStream altLogger, ChangeBasedEvent event) {
         this.frontEndUrl = config.getGerritFrontEndUrl();
         this.httpProxy = config.getGerritProxy();
         this.credentials = config.getHttpCredentials();

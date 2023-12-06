@@ -46,7 +46,7 @@ public abstract class AbstractJsonObjectWork extends AbstractGerritEventWork {
     /**
      * Standard constructor, initialize the createOn time stamp.
      */
-    public AbstractJsonObjectWork() {
+    protected AbstractJsonObjectWork() {
         this.createdOn = System.currentTimeMillis();
     }
 

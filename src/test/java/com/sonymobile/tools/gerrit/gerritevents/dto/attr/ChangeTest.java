@@ -94,13 +94,13 @@ public class ChangeTest {
         Change change = new Change();
         change.fromJson(json);
 
-        assertEquals(change.getProject(), "project");
-        assertEquals(change.getBranch(), "branch");
-        assertEquals(change.getId(), "I2343434344");
-        assertEquals(change.getNumber(), "100");
-        assertEquals(change.getSubject(), "subject");
-        assertEquals(change.getOwner(), account);
-        assertEquals(change.getUrl(), "http://localhost:8080");
+        assertEquals("project", change.getProject());
+        assertEquals("branch", change.getBranch());
+        assertEquals("I2343434344", change.getId());
+        assertEquals("100", change.getNumber());
+        assertEquals("subject", change.getSubject());
+        assertEquals(account, change.getOwner());
+        assertEquals("http://localhost:8080", change.getUrl());
         assertNull(change.getComments());
     }
 
@@ -121,12 +121,12 @@ public class ChangeTest {
         Change change = new Change();
         change.fromJson(json);
 
-        assertEquals(change.getProject(), "project");
-        assertEquals(change.getBranch(), "branch");
-        assertEquals(change.getId(), "I2343434344");
-        assertEquals(change.getNumber(), "100");
-        assertEquals(change.getSubject(), "subject");
-        assertTrue(change.getOwner().equals(account));
+        assertEquals("project", change.getProject());
+        assertEquals("branch", change.getBranch());
+        assertEquals("I2343434344", change.getId());
+        assertEquals("100", change.getNumber());
+        assertEquals("subject", change.getSubject());
+        assertEquals(account, change.getOwner());
         assertNull(change.getUrl());
         assertNull(change.getComments());
     }
@@ -216,16 +216,16 @@ public class ChangeTest {
         json.add(HASHTAGS, hashtags);
         Change change = new Change(json);
 
-        assertEquals(change.getProject(), "project");
-        assertEquals(change.getBranch(), "branch");
-        assertEquals(change.getId(), "I2343434344");
-        assertEquals(change.getNumber(), "100");
-        assertEquals(change.getSubject(), "subject");
-        assertTrue(change.getOwner().equals(account));
-        assertEquals(change.getUrl(), "http://localhost:8080");
+        assertEquals("project", change.getProject());
+        assertEquals("branch", change.getBranch());
+        assertEquals("I2343434344", change.getId());
+        assertEquals("100", change.getNumber());
+        assertEquals("subject", change.getSubject());
+        assertEquals(account, change.getOwner());
+        assertEquals("http://localhost:8080", change.getUrl());
         assertNull(change.getComments());
-        assertEquals(change.getStatus(), GerritChangeStatus.NEW);
-        assertEquals(change.getHashtags(), Arrays.asList("first", "second"));
+        assertEquals(GerritChangeStatus.NEW, change.getStatus());
+        assertEquals(Arrays.asList("first", "second"), change.getHashtags());
     }
 
     /**
@@ -255,6 +255,6 @@ public class ChangeTest {
         change2.setWip(false);
         change2.setPrivate(false);
 
-        assertTrue(change.equals(change2));
+        assertEquals(change, change2);
     }
 }

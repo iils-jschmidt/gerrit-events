@@ -27,7 +27,7 @@ package com.sonymobile.tools.gerrit.gerritevents.dto.events;
 import static com.sonymobile.tools.gerrit.gerritevents.dto.GerritEventKeys.ABANDONER;
 import com.sonymobile.tools.gerrit.gerritevents.dto.GerritEventType;
 import com.sonymobile.tools.gerrit.gerritevents.dto.attr.Account;
-import net.sf.json.JSONObject;
+import com.google.gson.JsonObject;
 
 /**
  * A DTO representation of the change-abandoned Gerrit Event.
@@ -65,10 +65,10 @@ public class ChangeAbandoned extends ChangeBasedEvent {
     /**
      * Constructor that fills data directly.
      * @param json the JSON Object
-     * @see #fromJson(net.sf.json.JSONObject)
+     * @see #fromJson(net.sf.json.JsonObject)
      */
     @SuppressWarnings("OverridableMethodCallInConstructor")
-    public ChangeAbandoned(JSONObject json) {
+    public ChangeAbandoned(JsonObject json) {
         fromJson(json);
     }
 
@@ -83,11 +83,11 @@ public class ChangeAbandoned extends ChangeBasedEvent {
     }
 
     @Override
-    public void fromJson(JSONObject json) {
+    public void fromJson(JsonObject json) {
         super.fromJson(json);
 
-        if (json.containsKey(ABANDONER)) {
-            abandoner = new Account(json.getJSONObject(ABANDONER));
+        if (json.has(ABANDONER)) {
+            abandoner = new Account(json.getAsJsonObject(ABANDONER));
         }
     }
 }

@@ -31,8 +31,8 @@ import com.sonymobile.tools.gerrit.gerritevents.dto.GerritEventType;
 import com.sonymobile.tools.gerrit.gerritevents.dto.attr.Account;
 
 import com.sonymobile.tools.gerrit.gerritevents.dto.rest.Topic;
-import net.sf.json.JSONObject;
-import org.apache.commons.lang.StringUtils;
+import com.google.gson.JsonObject;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * A DTO representation of the topic-changed Gerrit Event.
@@ -127,14 +127,14 @@ public class TopicChanged  extends ChangeBasedEvent {
     }
 
     @Override
-    public void fromJson(JSONObject json) {
+    public void fromJson(JsonObject json) {
         super.fromJson(json);
 
-        if (json.containsKey(CHANGER)) {
-            this.changer = new Account(json.getJSONObject(CHANGER));
+        if (json.has(CHANGER)) {
+            this.changer = new Account(json.getAsJsonObject(CHANGER));
         }
-        if (json.containsKey(OLD_TOPIC)) {
-            this.oldTopicObject = new Topic(json.getString(OLD_TOPIC));
+        if (json.has(OLD_TOPIC)) {
+            this.oldTopicObject = new Topic(json.get(OLD_TOPIC).getAsString());
         }
     }
 

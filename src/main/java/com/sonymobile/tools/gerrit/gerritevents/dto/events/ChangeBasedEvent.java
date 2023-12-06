@@ -26,7 +26,7 @@ package com.sonymobile.tools.gerrit.gerritevents.dto.events;
 import com.sonymobile.tools.gerrit.gerritevents.GerritQueryHandler;
 import com.sonymobile.tools.gerrit.gerritevents.dto.attr.Change;
 import com.sonymobile.tools.gerrit.gerritevents.dto.attr.PatchSet;
-import net.sf.json.JSONObject;
+import com.google.gson.JsonObject;
 
 import java.util.Collections;
 import java.util.List;
@@ -129,15 +129,15 @@ public abstract class ChangeBasedEvent extends GerritTriggeredEvent {
      *
      * @param json the JSON Object.
      */
-    public void fromJson(JSONObject json) {
+    public void fromJson(JsonObject json) {
         super.fromJson(json);
-        if (json.containsKey(CHANGE)) {
-            change = new Change(json.getJSONObject(CHANGE));
+        if (json.has(CHANGE)) {
+            change = new Change(json.getAsJsonObject(CHANGE));
         }
-        if (json.containsKey(PATCH_SET)) {
-            patchSet = new PatchSet(json.getJSONObject(PATCH_SET));
-        } else if (json.containsKey(PATCHSET)) {
-            patchSet = new PatchSet(json.getJSONObject(PATCHSET));
+        if (json.has(PATCH_SET)) {
+            patchSet = new PatchSet(json.getAsJsonObject(PATCH_SET));
+        } else if (json.has(PATCHSET)) {
+            patchSet = new PatchSet(json.getAsJsonObject(PATCHSET));
         }
     }
 

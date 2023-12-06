@@ -24,7 +24,7 @@
  */
 package com.sonymobile.tools.gerrit.gerritevents.dto;
 
-import net.sf.json.JSONObject;
+import com.google.gson.JsonObject;
 
 /**
  * Base interface for all DTO POJOs that represents a JSON data structure.
@@ -35,5 +35,5 @@ public interface GerritJsonDTO {
      * Takes a JSON object and fills its internal data-structure.
      * @param json the JSON Object.
      */
-    void fromJson(JSONObject json);
+    void fromJson(JsonObject json);
 }

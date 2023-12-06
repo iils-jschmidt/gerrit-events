@@ -34,7 +34,7 @@ import static com.sonymobile.tools.gerrit.gerritevents.dto.GerritEventKeys.URL;
 import static com.sonymobile.tools.gerrit.gerritevents.dto.GerritEventKeys.VERSION;
 
 import com.sonymobile.tools.gerrit.gerritevents.GerritConnection;
-import net.sf.json.JSONObject;
+import com.google.gson.JsonObject;
 
 import com.sonymobile.tools.gerrit.gerritevents.dto.GerritJsonDTO;
 
@@ -80,9 +80,9 @@ public class Provider implements GerritJsonDTO {
      * Constructor that fills with data directly.
      *
      * @param json the JSON Object with data.
-     * @see #fromJson(net.sf.json.JSONObject)
+     * @see #fromJson(net.sf.json.JsonObject)
      */
-    public Provider(JSONObject json) {
+    public Provider(JsonObject json) {
         fromJson(json);
     }
 
@@ -105,7 +105,7 @@ public class Provider implements GerritJsonDTO {
     }
 
     @Override
-    public void fromJson(JSONObject json) {
+    public void fromJson(JsonObject json) {
         name = getString(json, NAME);
         host = getString(json, HOST);
         port = getString(json, PORT);

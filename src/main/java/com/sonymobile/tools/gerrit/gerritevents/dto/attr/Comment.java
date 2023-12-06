@@ -25,7 +25,7 @@
 package com.sonymobile.tools.gerrit.gerritevents.dto.attr;
 
 import com.sonymobile.tools.gerrit.gerritevents.dto.GerritJsonDTO;
-import net.sf.json.JSONObject;
+import com.google.gson.JsonObject;
 
 import static com.sonymobile.tools.gerrit.gerritevents.GerritJsonEventFactory.getString;
 import static com.sonymobile.tools.gerrit.gerritevents.dto.GerritEventKeys.MESSAGE;
@@ -48,17 +48,17 @@ public class Comment implements GerritJsonDTO {
      * Constructor that fills with data directly.
      *
      * @param json the JSON Object with data.
-     * @see #fromJson(net.sf.json.JSONObject)
+     * @see #fromJson(net.sf.json.JsonObject)
      */
-    public Comment(JSONObject json) {
+    public Comment(JsonObject json) {
         this.fromJson(json);
     }
 
     @Override
-    public void fromJson(JSONObject json) {
+    public void fromJson(JsonObject json) {
         message = getString(json, MESSAGE);
-        if (json.containsKey(REVIEWER)) {
-            reviewer = new Account(json.getJSONObject(REVIEWER));
+        if (json.has(REVIEWER)) {
+            reviewer = new Account(json.getAsJsonObject(REVIEWER));
         }
     }
 

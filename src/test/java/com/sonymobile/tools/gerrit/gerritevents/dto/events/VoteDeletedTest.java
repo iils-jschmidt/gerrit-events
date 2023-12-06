@@ -4,12 +4,14 @@ import com.sonymobile.tools.gerrit.gerritevents.GerritJsonEventFactory;
 import com.sonymobile.tools.gerrit.gerritevents.dto.GerritEvent;
 import com.sonymobile.tools.gerrit.gerritevents.dto.attr.Account;
 import com.sonymobile.tools.gerrit.gerritevents.dto.attr.Approval;
-import net.sf.json.JSONObject;
-import org.apache.commons.io.IOUtils;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
 import org.junit.Test;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -26,8 +28,7 @@ public class VoteDeletedTest {
     @Test
     public void fromJsonShouldDeserializeVoteDeletedCorrectly() throws IOException {
         InputStream stream = getClass().getResourceAsStream("DeserializeVoteDeletedTest.json");
-        String json = IOUtils.toString(stream);
-        JSONObject jsonObject = JSONObject.fromObject(json);
+        JsonObject jsonObject = JsonParser.parseReader(new InputStreamReader(stream)).getAsJsonObject();
         GerritEvent evt = GerritJsonEventFactory.getEvent(jsonObject);
 
         assertTrue("is a VoteDeleted event", evt instanceof VoteDeleted);

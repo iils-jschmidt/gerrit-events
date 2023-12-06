@@ -24,7 +24,7 @@
 
 package com.sonymobile.tools.gerrit.gerritevents.dto.attr;
 
-import net.sf.json.JSONObject;
+import com.google.gson.JsonObject;
 import org.junit.Test;
 
 import java.util.Date;
@@ -47,16 +47,16 @@ import static org.junit.Assert.assertTrue;
 public class PatchSetTest {
 
     /**
-     * Tests {@link PatchSet#fromJson(net.sf.json.JSONObject)}.
+     * Tests {@link PatchSet#fromJson(net.sf.json.JsonObject)}.
      * @throws Exception if so.
      */
     @Test
     public void testFromJson() throws Exception {
-        JSONObject json = new JSONObject();
-        json.put(NUMBER, "2");
-        json.put(REVISION, "ad123456789");
-        json.put(REF, "refs/changes/00/100/2");
-        json.put("isDraft", true);
+        JsonObject json = new JsonObject();
+        json.addProperty(NUMBER, "2");
+        json.addProperty(REVISION, "ad123456789");
+        json.addProperty(REF, "refs/changes/00/100/2");
+        json.addProperty("isDraft", true);
         PatchSet patchSet = new PatchSet();
         patchSet.fromJson(json);
 
@@ -67,16 +67,16 @@ public class PatchSetTest {
     }
 
     /**
-     * Tests {@link PatchSet#fromJson(net.sf.json.JSONObject)}.
+     * Tests {@link PatchSet#fromJson(net.sf.json.JsonObject)}.
      * Without "ref" in the JSON data.
      * @throws Exception if so.
      */
     @Test
     public void testFromJsonNoRef() throws Exception {
-        JSONObject json = new JSONObject();
-        json.put(NUMBER, "2");
-        json.put(REVISION, "ad123456789");
-        json.put("isDraft", true);
+        JsonObject json = new JsonObject();
+        json.addProperty(NUMBER, "2");
+        json.addProperty(REVISION, "ad123456789");
+        json.addProperty("isDraft", true);
         PatchSet patchSet = new PatchSet();
         patchSet.fromJson(json);
 
@@ -87,15 +87,15 @@ public class PatchSetTest {
     }
 
     /**
-     * Tests {@link PatchSet#fromJson(net.sf.json.JSONObject)}.
+     * Tests {@link PatchSet#fromJson(net.sf.json.JsonObject)}.
      * Without "isDraft" in the JSON data.
      * @throws Exception if so.
      */
     @Test
     public void testFromJsonNoIsDraft() throws Exception {
-        JSONObject json = new JSONObject();
-        json.put(NUMBER, "2");
-        json.put(REVISION, "ad123456789");
+        JsonObject json = new JsonObject();
+        json.addProperty(NUMBER, "2");
+        json.addProperty(REVISION, "ad123456789");
         PatchSet patchSet = new PatchSet();
         patchSet.fromJson(json);
 
@@ -106,16 +106,16 @@ public class PatchSetTest {
     }
 
     /**
-     * Test {@link PatchSet#PatchSet(net.sf.json.JSONObject)}.
+     * Test {@link PatchSet#PatchSet(net.sf.json.JsonObject)}.
      * @throws Exception if so.
      */
     @Test
     public void testInitFromJson() throws Exception {
-        JSONObject json = new JSONObject();
-        json.put(NUMBER, "2");
-        json.put(REVISION, "ad123456789");
-        json.put(REF, "refs/changes/00/100/2");
-        json.put("isDraft", true);
+        JsonObject json = new JsonObject();
+        json.addProperty(NUMBER, "2");
+        json.addProperty(REVISION, "ad123456789");
+        json.addProperty(REF, "refs/changes/00/100/2");
+        json.addProperty("isDraft", true);
         PatchSet patchSet = new PatchSet(json);
 
         assertEquals("2", patchSet.getNumber());
@@ -125,7 +125,7 @@ public class PatchSetTest {
     }
 
      /**
-     * Test {@link PatchSet#PatchSet(net.sf.json.JSONObject)}.
+     * Test {@link PatchSet#PatchSet(net.sf.json.JsonObject)}.
       * With createdOn.
      * @throws Exception if so.
      */
@@ -136,8 +136,8 @@ public class PatchSetTest {
         //In gerrit, time is written in seconds, not milliseconds.
         long milliseconds = TimeUnit.SECONDS.toMillis(createdOn);
         Date createdOnAsDate = new Date(milliseconds);
-        JSONObject json = new JSONObject();
-        json.put(CREATED_ON, createdOn);
+        JsonObject json = new JsonObject();
+        json.addProperty(CREATED_ON, createdOn);
         PatchSet patchSet = new PatchSet(json);
         assertEquals(createdOnAsDate, patchSet.getCreatedOn());
     }
@@ -148,11 +148,11 @@ public class PatchSetTest {
      */
     @Test
     public void testEquals() throws Exception {
-        JSONObject json = new JSONObject();
-        json.put(NUMBER, "2");
-        json.put(REVISION, "ad123456789");
-        json.put(REF, "refs/changes/00/100/2");
-        json.put("isDraft", true);
+        JsonObject json = new JsonObject();
+        json.addProperty(NUMBER, "2");
+        json.addProperty(REVISION, "ad123456789");
+        json.addProperty(REF, "refs/changes/00/100/2");
+        json.addProperty("isDraft", true);
         PatchSet patchSet = new PatchSet(json);
 
         PatchSet patchSet2 = new PatchSet();

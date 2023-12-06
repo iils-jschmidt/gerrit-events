@@ -29,7 +29,7 @@ import static com.sonymobile.tools.gerrit.gerritevents.dto.GerritEventKeys.REVIE
 import com.sonymobile.tools.gerrit.gerritevents.dto.GerritEventType;
 import com.sonymobile.tools.gerrit.gerritevents.dto.attr.Account;
 
-import net.sf.json.JSONObject;
+import com.google.gson.JsonObject;
 
 /**
  * A DTO representation of the reviewer-added Gerrit Event.
@@ -53,10 +53,10 @@ public class ReviewerAdded extends ChangeBasedEvent {
     }
 
     @Override
-    public void fromJson(JSONObject json) {
+    public void fromJson(JsonObject json) {
         super.fromJson(json);
-        if (json.containsKey(REVIEWER)) {
-            this.reviewer = new Account(json.getJSONObject(REVIEWER));
+        if (json.has(REVIEWER)) {
+            this.reviewer = new Account(json.getAsJsonObject(REVIEWER));
         }
     }
 

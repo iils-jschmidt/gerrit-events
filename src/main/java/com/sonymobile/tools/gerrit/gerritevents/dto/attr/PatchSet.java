@@ -25,8 +25,8 @@ package com.sonymobile.tools.gerrit.gerritevents.dto.attr;
 
 import com.sonymobile.tools.gerrit.gerritevents.dto.GerritChangeKind;
 import com.sonymobile.tools.gerrit.gerritevents.dto.GerritJsonDTO;
-import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -104,38 +104,38 @@ public class PatchSet implements GerritJsonDTO {
      * Constructor that fills with data directly.
      * @param json the JSON object with corresponding data.
      */
-    public PatchSet(JSONObject json) {
+    public PatchSet(JsonObject json) {
         this.fromJson(json);
     }
 
     @Override
-    public void fromJson(JSONObject json) {
+    public void fromJson(JsonObject json) {
         number = getString(json, NUMBER);
         revision = getString(json, REVISION);
         draft = getBoolean(json, IS_DRAFT);
         createdOn = getDate(json, CREATED_ON);
-        if (json.containsKey(KIND)) {
+        if (json.has(KIND)) {
             kind = GerritChangeKind.fromString(getString(json, KIND));
         }
         ref = getString(json, REF);
-        if (json.containsKey(UPLOADER)) {
-            uploader = new Account(json.getJSONObject(UPLOADER));
+        if (json.has(UPLOADER)) {
+            uploader = new Account(json.getAsJsonObject(UPLOADER));
         }
-        if (json.containsKey(AUTHOR)) {
-            author = new Account(json.getJSONObject(AUTHOR));
+        if (json.has(AUTHOR)) {
+            author = new Account(json.getAsJsonObject(AUTHOR));
         }
-        if (json.containsKey(APPROVALS)) {
+        if (json.has(APPROVALS)) {
             approvals = new ArrayList<Approval>();
-            JSONArray eventApprovals = json.getJSONArray(APPROVALS);
+            JsonArray eventApprovals = json.getAsJsonArray(APPROVALS);
             for (int i = 0; i < eventApprovals.size(); i++) {
-                approvals.add(new Approval(eventApprovals.getJSONObject(i)));
+                approvals.add(new Approval(eventApprovals.get(i).getAsJsonObject()));
             }
         }
-        if (json.containsKey(PARENTS)) {
+        if (json.has(PARENTS)) {
             parents = new ArrayList<String>();
-            JSONArray eventParents = json.getJSONArray(PARENTS);
+            JsonArray eventParents = json.getAsJsonArray(PARENTS);
             for (int i = 0; i < eventParents.size(); i++) {
-                parents.add(eventParents.getString(i));
+                parents.add(eventParents.get(i).getAsString());
             }
         }
     }

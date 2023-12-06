@@ -27,7 +27,7 @@ package com.sonymobile.tools.gerrit.gerritevents.dto.events;
 import static com.sonymobile.tools.gerrit.gerritevents.GerritJsonEventFactory.getDate;
 import static com.sonymobile.tools.gerrit.gerritevents.dto.GerritEventKeys.EVENTCREATED_ON;
 import static com.sonymobile.tools.gerrit.gerritevents.dto.GerritEventKeys.PROVIDER;
-import net.sf.json.JSONObject;
+import com.google.gson.JsonObject;
 
 import com.sonymobile.tools.gerrit.gerritevents.dto.GerritJsonEvent;
 import com.sonymobile.tools.gerrit.gerritevents.dto.attr.Account;
@@ -144,11 +144,11 @@ public abstract class GerritTriggeredEvent implements GerritJsonEvent {
     }
 
     @Override
-    public void fromJson(JSONObject json) {
-        if (json.containsKey(PROVIDER)) {
-            provider = new Provider(json.getJSONObject(PROVIDER));
+    public void fromJson(JsonObject json) {
+        if (json.has(PROVIDER)) {
+            provider = new Provider(json.getAsJsonObject(PROVIDER));
         }
-        if (json.containsKey(EVENTCREATED_ON)) {
+        if (json.has(EVENTCREATED_ON)) {
             eventCreatedOn = getDate(json, EVENTCREATED_ON);
         }
     }

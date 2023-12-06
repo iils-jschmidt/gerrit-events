@@ -30,14 +30,14 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
-import net.sf.json.JSONException;
-import net.sf.json.JSONObject;
-import net.sf.json.JSONSerializer;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Contains utility methods for handling JSONObjects.
+ * Contains utility methods for handling JsonObjects.
  * @author Robert Sandell &lt;robert.sandell@sonyericsson.com&gt;
  */
 public final class GerritJsonEventFactory {
@@ -52,28 +52,28 @@ public final class GerritJsonEventFactory {
     }
 
     /**
-     * Creates a GerritJsonEvent DTO out of the provided JSONObject.
-     * The jsonObject is assumed to be interesting and usable
+     * Creates a GerritJsonEvent DTO out of the provided JsonObject.
+     * The JsonObject is assumed to be interesting and usable
      * as defined by {@link #getJsonObjectIfInterestingAndUsable(java.lang.String) }
      * @param jsonObject the parsed JSON Object
-     * @return the POJO DTO representation of the jsonObject.
+     * @return the POJO DTO representation of the JsonObject.
      */
-    public static GerritJsonEvent getEvent(JSONObject jsonObject) {
+    public static GerritJsonEvent getEvent(JsonObject jsonObject) {
 
-        GerritEventType type = GerritEventType.findByTypeValue(jsonObject.getString("type"));
-        //the type has already been verified by the method that gets the JSONObject,
+        GerritEventType type = GerritEventType.findByTypeValue(jsonObject.get("type").getAsString());
+        //the type has already been verified by the method that gets the JsonObject,
         //so any NullPointerExceptions or similar problems are the caller's own fault.
         Class<? extends GerritJsonEvent> clazz = type.getEventRepresentative();
         GerritJsonEvent event = null;
         try {
             logger.debug("Interesting event with a class defined. Searching shorthand constructor.");
-            Constructor<? extends GerritJsonEvent> constructor = clazz.getConstructor(JSONObject.class);
+            Constructor<? extends GerritJsonEvent> constructor = clazz.getConstructor(JsonObject.class);
             event = constructor.newInstance(jsonObject);
             logger.trace("Event created from shorthand constructor.");
         } catch (NoSuchMethodException ex) {
-            logger.debug("Constructor with JSONObject as parameter missing, trying default constructor.", ex);
+            logger.debug("Constructor with JsonObject as parameter missing, trying default constructor.", ex);
         } catch (Exception ex) {
-            logger.debug("Error when using event constructor with JSONObject, trying default constructor.", ex);
+            logger.debug("Error when using event constructor with JsonObject, trying default constructor.", ex);
         }
         if (event == null) {
             logger.debug("Trying default constructor.");
@@ -109,7 +109,7 @@ public final class GerritJsonEventFactory {
     }
 
     /**
-     * Tries to parse the provided string into a JSONObject and returns it if it is interesting and usable.
+     * Tries to parse the provided string into a JsonObject and returns it if it is interesting and usable.
      * If it is interesting is determined by:
      * <ol>
      *  <li>The object contains a String field named type</li>
@@ -119,16 +119,16 @@ public final class GerritJsonEventFactory {
      * </ol>
      * It is usable if the type's {@link GerritEventType#getEventRepresentative() } is not null.
      * @param jsonString the string to parse.
-     * @return an interesting and usable JSONObject, or null if it is not.
+     * @return an interesting and usable JsonObject, or null if it is not.
      */
-    public static JSONObject getJsonObjectIfInterestingAndUsable(String jsonString) {
+    public static JsonObject getJsonObjectIfInterestingAndUsable(String jsonString) {
         logger.trace("finding event for jsonString: {}", jsonString);
         if (jsonString == null || jsonString.length() <= 0) {
             return null;
         }
         try {
-            JSONObject jsonObject = (JSONObject)JSONSerializer.toJSON(jsonString);
-            logger.debug("Parsed a JSONObject");
+            JsonObject jsonObject = JsonParser.parseString(jsonString).getAsJsonObject();
+            logger.debug("Parsed a JsonObject");
             if (isInterestingAndUsable(jsonObject)) {
                 return jsonObject;
             }
@@ -142,10 +142,10 @@ public final class GerritJsonEventFactory {
      * Deprecated due to misspelling.
      * <p>Use isInterestingAndUsable instead.</p>
      * @param json the string to parse
-     * @return true if an interesting and usable JSONObject.
+     * @return true if an interesting and usable JsonObject.
      */
     @Deprecated
-    public static boolean isInteresgingAndUsable(JSONObject json) {
+    public static boolean isInteresgingAndUsable(JsonObject json) {
         return isInterestingAndUsable(json);
     }
     /**
@@ -158,14 +158,14 @@ public final class GerritJsonEventFactory {
      * </ol>
      * It is usable if the type's {@link GerritEventType#getEventRepresentative() } is not null.
      * @param json the string to parse.
-     * @return true if an interesting and usable JSONObject.
+     * @return true if an interesting and usable JsonObject.
      */
-    public static boolean isInterestingAndUsable(JSONObject json) {
+    public static boolean isInterestingAndUsable(JsonObject json) {
         try {
             if (json != null) {
                 if (json.get("type") != null) {
                     logger.trace("It has a type");
-                    GerritEventType type = GerritEventType.findByTypeValue(json.getString("type"));
+                    GerritEventType type = GerritEventType.findByTypeValue(json.get("type").getAsString());
                     logger.debug("Type found: {}", type);
                     if (type != null && type.isInteresting() && type.getEventRepresentative() != null) {
                         logger.debug("It is interesting and usable.");
@@ -188,7 +188,7 @@ public final class GerritJsonEventFactory {
     public static GerritJsonEvent getEventIfInteresting(String jsonString) {
         logger.trace("finding event for jsonString: {}", jsonString);
         try {
-            JSONObject jsonObject = getJsonObjectIfInterestingAndUsable(jsonString);
+            JsonObject jsonObject = getJsonObjectIfInterestingAndUsable(jsonString);
             if (jsonObject != null) {
                 return getEvent(jsonObject);
             }
@@ -201,14 +201,14 @@ public final class GerritJsonEventFactory {
 
     /**
      * Returns the value of a JSON property as a String if it exists otherwise returns the defaultValue.
-     * @param json the JSONObject to check.
+     * @param json the JsonObject to check.
      * @param key the key.
      * @param defaultValue the value to return if the key is missing.
      * @return the value for the key as a string.
      */
-    public static String getString(JSONObject json, String key, String defaultValue) {
-        if (json.containsKey(key)) {
-            return json.getString(key);
+    public static String getString(JsonObject json, String key, String defaultValue) {
+        if (json.has(key)) {
+            return json.get(key).getAsString();
         } else {
             return defaultValue;
         }
@@ -216,33 +216,27 @@ public final class GerritJsonEventFactory {
 
     /**
      * Returns the value of a JSON property as a String if it exists otherwise returns null.
-     * Same as calling {@link #getString(net.sf.json.JSONObject, java.lang.String, java.lang.String) }
+     * Same as calling {@link #getString(net.sf.json.JsonObject, java.lang.String, java.lang.String) }
      * with null as defaultValue.
-     * @param json the JSONObject to check.
+     * @param json the JsonObject to check.
      * @param key the key.
      * @return the value for the key as a string.
      */
-    public static String getString(JSONObject json, String key) {
+    public static String getString(JsonObject json, String key) {
         return getString(json, key, null);
     }
 
     /**
      * Returns the value of a JSON property as a boolean if it exists and boolean value
      * otherwise returns the defaultValue.
-     * @param json the JSONObject to check.
+     * @param json the JsonObject to check.
      * @param key the key.
      * @param defaultValue the value to return if the key is missing or not boolean value.
      * @return the value for the key as a boolean.
      */
-    public static boolean getBoolean(JSONObject json, String key, boolean defaultValue) {
-        if (json.containsKey(key)) {
-            boolean result;
-            try {
-                result = json.getBoolean(key);
-            } catch (JSONException ex) {
-                result = defaultValue;
-            }
-            return result;
+    public static boolean getBoolean(JsonObject json, String key, boolean defaultValue) {
+        if (json.has(key)) {
+            return json.get(key).getAsBoolean();
         } else {
             return defaultValue;
         }
@@ -250,41 +244,40 @@ public final class GerritJsonEventFactory {
 
     /**
      * Returns the value of a JSON property as a boolean if it exists otherwise returns false.
-     * @param json the JSONObject to check.
+     * @param json the JsonObject to check.
      * @param key the key.
      * @return the value for the key as a boolean.
      */
-    public static boolean getBoolean(JSONObject json, String key) {
+    public static boolean getBoolean(JsonObject json, String key) {
         return getBoolean(json, key, false);
     }
 
     /**
      * Returns the value of a JSON property as a Date if it exists otherwise returns null.
-     * @param json the JSONObject to check.
+     * @param json the JsonObject to check.
      * @param key the key.
      * @return the value for the key as a Date.
      */
-    public static Date getDate(JSONObject json, String key) {
+    public static Date getDate(JsonObject json, String key) {
         return getDate(json, key, null);
     }
 
     /**
      * Returns the value of a JSON property as a Date if it exists otherwise returns the defaultValue.
-     * @param json the JSONObject to check.
+     * @param json the JsonObject to check.
      * @param key the key.
      * @param defaultValue the value to return if the key is missing.
      * @return the value for the key as a Date.
      */
-    public static Date getDate(JSONObject json, String key, Date defaultValue) {
+    public static Date getDate(JsonObject json, String key, Date defaultValue) {
         Date result = defaultValue;
-        if (json.containsKey(key)) {
+        if (json.has(key)) {
             try {
-                String secondsString = json.getString(key);
+                String secondsString = json.get(key).getAsString();
                 //In gerrit, time is written in seconds, not milliseconds.
                 Long milliseconds = TimeUnit.SECONDS.toMillis(Long.parseLong(secondsString));
                 result = new Date(milliseconds);
                 // CS IGNORE EmptyBlockCheck FOR NEXT 2 LINES. REASON: result is already set to defaultValue.
-            } catch (JSONException ex) {
             } catch (NumberFormatException nfe) {
             }
         }

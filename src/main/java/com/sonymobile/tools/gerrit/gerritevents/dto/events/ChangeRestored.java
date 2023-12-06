@@ -26,7 +26,7 @@ package com.sonymobile.tools.gerrit.gerritevents.dto.events;
 import static com.sonymobile.tools.gerrit.gerritevents.dto.GerritEventKeys.RESTORER;
 import com.sonymobile.tools.gerrit.gerritevents.dto.GerritEventType;
 import com.sonymobile.tools.gerrit.gerritevents.dto.attr.Account;
-import net.sf.json.JSONObject;
+import com.google.gson.JsonObject;
 
 /**
  * A DTO representation of the change-restored Gerrit Event.
@@ -64,10 +64,10 @@ public class ChangeRestored extends ChangeBasedEvent {
      * Constructor that fills data directly.
      *
      * @param json the JSON Object
-     * @see #fromJson(net.sf.json.JSONObject)
+     * @see #fromJson(net.sf.json.JsonObject)
      */
     @SuppressWarnings("OverridableMethodCallInConstructor")
-    public ChangeRestored(JSONObject json) {
+    public ChangeRestored(JsonObject json) {
         fromJson(json);
     }
 
@@ -82,11 +82,11 @@ public class ChangeRestored extends ChangeBasedEvent {
     }
 
     @Override
-    public void fromJson(JSONObject json) {
+    public void fromJson(JsonObject json) {
         super.fromJson(json);
 
-        if (json.containsKey(RESTORER)) {
-            this.restorer = new Account(json.getJSONObject(RESTORER));
+        if (json.has(RESTORER)) {
+            this.restorer = new Account(json.getAsJsonObject(RESTORER));
         }
     }
 }

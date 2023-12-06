@@ -29,7 +29,7 @@ import com.sonymobile.tools.gerrit.gerritevents.dto.GerritEvent;
 import com.sonymobile.tools.gerrit.gerritevents.dto.attr.Change;
 import com.sonymobile.tools.gerrit.gerritevents.dto.attr.PatchSet;
 import com.sonymobile.tools.gerrit.gerritevents.dto.events.PatchsetCreated;
-import net.sf.json.JSONObject;
+import com.google.gson.JsonObject;
 import org.junit.Test;
 
 import java.util.concurrent.BlockingQueue;
@@ -60,23 +60,23 @@ public class GerritEventWorkTest {
      */
     @Test
     public void testPerform() throws Exception {
-        JSONObject patch = new JSONObject();
-        patch.put(NUMBER, "2");
-        patch.put(REVISION, "ad123456789");
-        patch.put(REF, "refs/changes/00/100/2");
+        JsonObject patch = new JsonObject();
+        patch.addProperty(NUMBER, "2");
+        patch.addProperty(REVISION, "ad123456789");
+        patch.addProperty(REF, "refs/changes/00/100/2");
 
-        JSONObject jsonAccount = new JSONObject();
-        jsonAccount.put(EMAIL, "robert.sandell@sonyericsson.com");
-        jsonAccount.put(NAME, "Bobby");
+        JsonObject jsonAccount = new JsonObject();
+        jsonAccount.addProperty(EMAIL, "robert.sandell@sonyericsson.com");
+        jsonAccount.addProperty(NAME, "Bobby");
 
-        JSONObject change = new JSONObject();
-        change.put(PROJECT, "project");
-        change.put(BRANCH, "branch");
-        change.put(ID, "I2343434344");
-        change.put(NUMBER, "100");
-        change.put(SUBJECT, "subject");
-        change.put(OWNER, jsonAccount);
-        change.put(URL, "http://localhost:8080");
+        JsonObject change = new JsonObject();
+        change.addProperty(PROJECT, "project");
+        change.addProperty(BRANCH, "branch");
+        change.addProperty(ID, "I2343434344");
+        change.addProperty(NUMBER, "100");
+        change.addProperty(SUBJECT, "subject");
+        change.add(OWNER, jsonAccount);
+        change.addProperty(URL, "http://localhost:8080");
 
         PatchsetCreated event = new PatchsetCreated();
         event.setChange(new Change(change));

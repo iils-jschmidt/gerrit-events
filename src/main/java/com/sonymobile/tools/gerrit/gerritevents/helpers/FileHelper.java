@@ -2,8 +2,8 @@ package com.sonymobile.tools.gerrit.gerritevents.helpers;
 
 import com.sonymobile.tools.gerrit.gerritevents.GerritQueryException;
 import com.sonymobile.tools.gerrit.gerritevents.GerritQueryHandler;
-import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,22 +32,23 @@ public final class FileHelper {
      */
     public static List<String> getFilesByChange(GerritQueryHandler gerritQueryHandler, String changeId) {
         try {
-            List<JSONObject> jsonList = gerritQueryHandler.queryFiles("change:" + changeId);
-            for (JSONObject json : jsonList) {
-                if (json.has("type") && "stats".equalsIgnoreCase(json.getString("type"))) {
+            List<JsonObject> jsonList = gerritQueryHandler.queryFiles("change:" + changeId);
+            for (JsonObject json : jsonList) {
+                if (json.has("type") && "stats".equalsIgnoreCase(json.get("type").getAsString())) {
                     continue;
                 }
                 if (json.has("currentPatchSet")) {
-                    JSONObject currentPatchSet = json.getJSONObject("currentPatchSet");
+                    JsonObject currentPatchSet = json.getAsJsonObject("currentPatchSet");
                     if (currentPatchSet.has("files")) {
-                        JSONArray changedFiles = currentPatchSet.optJSONArray("files");
+                        //TODO: was an opt method investigate what happen if files is not present
+                        JsonArray changedFiles = currentPatchSet.get("files").getAsJsonArray();
                         int numberOfFiles = changedFiles.size();
 
                         if (numberOfFiles > 0) {
                             List<String> files = new ArrayList<String>(numberOfFiles);
                             for (int i = 0; i < changedFiles.size(); i++) {
-                                JSONObject file = changedFiles.getJSONObject(i);
-                                files.add(file.getString("file"));
+                                JsonObject file = changedFiles.get(i).getAsJsonObject();
+                                files.add(file.get("file").getAsString());
                             }
                             return files;
                         }

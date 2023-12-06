@@ -27,7 +27,7 @@ import static com.sonymobile.tools.gerrit.gerritevents.GerritJsonEventFactory.ge
 import static com.sonymobile.tools.gerrit.gerritevents.dto.GerritEventKeys.NODES_COUNT;
 import static com.sonymobile.tools.gerrit.gerritevents.dto.GerritEventKeys.PROJECT;
 import static com.sonymobile.tools.gerrit.gerritevents.dto.GerritEventKeys.REF;
-import net.sf.json.JSONObject;
+import com.google.gson.JsonObject;
 
 import com.sonymobile.tools.gerrit.gerritevents.dto.GerritEventType;
 
@@ -62,10 +62,10 @@ public class RefReplicationDone extends GerritTriggeredEvent {
     }
 
     @Override
-    public void fromJson(JSONObject json) {
+    public void fromJson(JsonObject json) {
         project = getString(json, PROJECT);
         ref = getString(json, REF);
-        nodesCount = json.getInt(NODES_COUNT);
+        nodesCount = json.get(NODES_COUNT).getAsInt();
         super.fromJson(json);
     }
 

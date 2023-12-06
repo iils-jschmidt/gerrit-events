@@ -25,8 +25,8 @@
 package com.sonymobile.tools.gerrit.gerritevents.dto.attr;
 
 import com.sonymobile.tools.gerrit.gerritevents.dto.GerritChangeStatus;
-import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -62,7 +62,7 @@ import static org.junit.Assert.assertTrue;
  */
 public class ChangeTest {
     private Account account;
-    private JSONObject jsonAccount;
+    private JsonObject jsonAccount;
 
     /**
      * Sets up a dummy Account object and a JSON version before each test.
@@ -72,25 +72,25 @@ public class ChangeTest {
         account = new Account();
         account.setEmail("robert.sandell@sonyericsson.com");
         account.setName("Bobby");
-        jsonAccount = new JSONObject();
-        jsonAccount.put(EMAIL, account.getEmail());
-        jsonAccount.put(NAME, account.getName());
+        jsonAccount = new JsonObject();
+        jsonAccount.addProperty(EMAIL, account.getEmail());
+        jsonAccount.addProperty(NAME, account.getName());
     }
 
     /**
-     * Tests {@link Change#fromJson(net.sf.json.JSONObject)}.
+     * Tests {@link Change#fromJson(net.sf.json.JsonObject)}.
      * @throws Exception if so.
      */
     @Test
     public void testFromJson() throws Exception {
-        JSONObject json = new JSONObject();
-        json.put(PROJECT, "project");
-        json.put(BRANCH, "branch");
-        json.put(ID, "I2343434344");
-        json.put(NUMBER, "100");
-        json.put(SUBJECT, "subject");
-        json.put(OWNER, jsonAccount);
-        json.put(URL, "http://localhost:8080");
+        JsonObject json = new JsonObject();
+        json.addProperty(PROJECT, "project");
+        json.addProperty(BRANCH, "branch");
+        json.addProperty(ID, "I2343434344");
+        json.addProperty(NUMBER, "100");
+        json.addProperty(SUBJECT, "subject");
+        json.add(OWNER, jsonAccount);
+        json.addProperty(URL, "http://localhost:8080");
         Change change = new Change();
         change.fromJson(json);
 
@@ -99,25 +99,25 @@ public class ChangeTest {
         assertEquals(change.getId(), "I2343434344");
         assertEquals(change.getNumber(), "100");
         assertEquals(change.getSubject(), "subject");
-        assertTrue(change.getOwner().equals(account));
+        assertEquals(change.getOwner(), account);
         assertEquals(change.getUrl(), "http://localhost:8080");
         assertNull(change.getComments());
     }
 
     /**
-     * Tests {@link Change#fromJson(net.sf.json.JSONObject)}.
+     * Tests {@link Change#fromJson(net.sf.json.JsonObject)}.
      * Without any JSON URL data.
      * @throws Exception if so.
      */
     @Test
     public void testFromJsonNoUrl() throws Exception {
-        JSONObject json = new JSONObject();
-        json.put(PROJECT, "project");
-        json.put(BRANCH, "branch");
-        json.put(ID, "I2343434344");
-        json.put(NUMBER, "100");
-        json.put(SUBJECT, "subject");
-        json.put(OWNER, jsonAccount);
+        JsonObject json = new JsonObject();
+        json.addProperty(PROJECT, "project");
+        json.addProperty(BRANCH, "branch");
+        json.addProperty(ID, "I2343434344");
+        json.addProperty(NUMBER, "100");
+        json.addProperty(SUBJECT, "subject");
+        json.add(OWNER, jsonAccount);
         Change change = new Change();
         change.fromJson(json);
 
@@ -132,15 +132,15 @@ public class ChangeTest {
     }
 
     /**
-     * Tests {@link Change#fromJson(net.sf.json.JSONObject)}.
+     * Tests {@link Change#fromJson(net.sf.json.JsonObject)}.
      * With comments.
      * @throws Exception if so.
      */
     @Test
     public void testFromJsonWithEmptyComments() throws Exception {
-        JSONArray jsonComments = new JSONArray();
-        JSONObject json = new JSONObject();
-        json.put(COMMENTS, jsonComments);
+        JsonArray jsonComments = new JsonArray();
+        JsonObject json = new JsonObject();
+        json.add(COMMENTS, jsonComments);
         Change change = new Change();
         change.fromJson(json);
 
@@ -149,19 +149,19 @@ public class ChangeTest {
     }
 
     /**
-     * Tests {@link Change#fromJson(net.sf.json.JSONObject)}.
+     * Tests {@link Change#fromJson(net.sf.json.JsonObject)}.
      * With comments.
      * @throws Exception if so.
      */
     @Test
     public void testFromJsonWithNonEmptyComments() throws Exception {
-        JSONObject jsonComment = new JSONObject();
-        jsonComment.put(MESSAGE, "Some review message");
-        jsonComment.put(REVIEWER, jsonAccount);
-        JSONArray jsonComments = new JSONArray();
+        JsonObject jsonComment = new JsonObject();
+        jsonComment.addProperty(MESSAGE, "Some review message");
+        jsonComment.add(REVIEWER, jsonAccount);
+        JsonArray jsonComments = new JsonArray();
         jsonComments.add(jsonComment);
-        JSONObject json = new JSONObject();
-        json.put(COMMENTS, jsonComments);
+        JsonObject json = new JsonObject();
+        json.add(COMMENTS, jsonComments);
         Change change = new Change();
         change.fromJson(json);
 
@@ -170,7 +170,7 @@ public class ChangeTest {
     }
 
     /**
-     * Tests {@link Change#fromJson(net.sf.json.JSONObject)}.
+     * Tests {@link Change#fromJson(net.sf.json.JsonObject)}.
      * With date values, createdOn and lastUpdated.
      * @throws Exception if so.
      */
@@ -179,15 +179,15 @@ public class ChangeTest {
     public void testFromJsonWithDateValues() throws Exception {
         long createdOn = 100000000L;
         long lastUpdated = 110000000L;
-        JSONObject json = new JSONObject();
+        JsonObject json = new JsonObject();
         //In gerrit, time is written in seconds, not milliseconds.
         long createdOnInMilliseconds = TimeUnit.SECONDS.toMillis(createdOn);
         Date createdOnAsDate = new Date(createdOnInMilliseconds);
         //In gerrit, time is written in seconds, not milliseconds.
         long lastUpdatedInMilliseconds = TimeUnit.SECONDS.toMillis(lastUpdated);
         Date lastUpdatedAsDate = new Date(lastUpdatedInMilliseconds);
-        json.put(CREATED_ON, createdOn);
-        json.put(LAST_UPDATED, lastUpdated);
+        json.addProperty(CREATED_ON, createdOn);
+        json.addProperty(LAST_UPDATED, lastUpdated);
         Change change = new Change();
         change.fromJson(json);
 
@@ -196,24 +196,24 @@ public class ChangeTest {
     }
 
     /**
-     * Tests {@link com.sonymobile.tools.gerrit.gerritevents.dto.attr.Change#Change(net.sf.json.JSONObject)}.
+     * Tests {@link com.sonymobile.tools.gerrit.gerritevents.dto.attr.Change#Change(net.sf.json.JsonObject)}.
      * @throws Exception if so.
      */
     @Test
     public void testInitJson() throws Exception {
-        JSONObject json = new JSONObject();
-        json.put(PROJECT, "project");
-        json.put(BRANCH, "branch");
-        json.put(ID, "I2343434344");
-        json.put(NUMBER, "100");
-        json.put(SUBJECT, "subject");
-        json.put(OWNER, jsonAccount);
-        json.put(STATUS, "NEW");
-        json.put(URL, "http://localhost:8080");
-        JSONArray hashtags = new JSONArray();
+        JsonObject json = new JsonObject();
+        json.addProperty(PROJECT, "project");
+        json.addProperty(BRANCH, "branch");
+        json.addProperty(ID, "I2343434344");
+        json.addProperty(NUMBER, "100");
+        json.addProperty(SUBJECT, "subject");
+        json.add(OWNER, jsonAccount);
+        json.addProperty(STATUS, "NEW");
+        json.addProperty(URL, "http://localhost:8080");
+        JsonArray hashtags = new JsonArray();
         hashtags.add("first");
         hashtags.add("second");
-        json.put(HASHTAGS, hashtags);
+        json.add(HASHTAGS, hashtags);
         Change change = new Change(json);
 
         assertEquals(change.getProject(), "project");
@@ -234,14 +234,14 @@ public class ChangeTest {
      */
     @Test
     public void testEquals() throws Exception {
-        JSONObject json = new JSONObject();
-        json.put(PROJECT, "project");
-        json.put(BRANCH, "branch");
-        json.put(ID, "I2343434344");
-        json.put(NUMBER, "100");
-        json.put(SUBJECT, "subject");
-        json.put(OWNER, jsonAccount);
-        json.put(URL, "http://localhost:8080");
+        JsonObject json = new JsonObject();
+        json.addProperty(PROJECT, "project");
+        json.addProperty(BRANCH, "branch");
+        json.addProperty(ID, "I2343434344");
+        json.addProperty(NUMBER, "100");
+        json.addProperty(SUBJECT, "subject");
+        json.add(OWNER, jsonAccount);
+        json.addProperty(URL, "http://localhost:8080");
         Change change = new Change(json);
 
         Change change2 = new Change();

@@ -6,8 +6,8 @@ import java.util.List;
 import com.sonymobile.tools.gerrit.gerritevents.dto.GerritEventType;
 import com.sonymobile.tools.gerrit.gerritevents.dto.attr.Account;
 import com.sonymobile.tools.gerrit.gerritevents.dto.attr.Approval;
-import net.sf.json.JSONObject;
-import net.sf.json.JSONArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonArray;
 
 import static com.sonymobile.tools.gerrit.gerritevents.GerritJsonEventFactory.getString;
 import static com.sonymobile.tools.gerrit.gerritevents.dto.GerritEventKeys.REVIEWER;
@@ -110,19 +110,19 @@ public class VoteDeleted extends ChangeBasedEvent {
     }
 
     @Override
-    public void fromJson(JSONObject json) {
+    public void fromJson(JsonObject json) {
         super.fromJson(json);
         comment = getString(json, COMMENT);
-        if (json.containsKey(REVIEWER)) {
-            this.reviewer = new Account(json.getJSONObject(REVIEWER));
+        if (json.has(REVIEWER)) {
+            this.reviewer = new Account(json.getAsJsonObject(REVIEWER));
         }
-        if (json.containsKey(REMOVER)) {
-            this.remover = new Account(json.getJSONObject(REMOVER));
+        if (json.has(REMOVER)) {
+            this.remover = new Account(json.getAsJsonObject(REMOVER));
         }
-        if (json.containsKey(APPROVALS)) {
-            JSONArray eventApprovals = json.getJSONArray(APPROVALS);
+        if (json.has(APPROVALS)) {
+            JsonArray eventApprovals = json.getAsJsonArray(APPROVALS);
             for (int i = 0; i < eventApprovals.size(); i++) {
-                approvals.add(new Approval(eventApprovals.getJSONObject(i)));
+                approvals.add(new Approval(eventApprovals.get(i).getAsJsonObject()));
             }
         }
     }

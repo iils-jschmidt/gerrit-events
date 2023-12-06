@@ -25,7 +25,7 @@
 package com.sonymobile.tools.gerrit.gerritevents.dto.attr;
 
 import com.sonymobile.tools.gerrit.gerritevents.dto.GerritEventKeys;
-import net.sf.json.JSONObject;
+import com.google.gson.JsonObject;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -80,14 +80,14 @@ public class AccountTest {
 
     /**
      * Tests {@link com.sonymobile.tools.gerrit.gerritevents.dto.attr.Account#getNameAndEmail()}.
-     * With a space in the name and the data retrieved from a JSONObject.
+     * With a space in the name and the data retrieved from a JsonObject.
      * @throws Exception if so.
      */
     @Test
     public void testGetNameAndEmailSpaceFromJson() throws Exception {
-        JSONObject json = new JSONObject();
-        json.put(GerritEventKeys.NAME, "Robert Sandell");
-        json.put(GerritEventKeys.EMAIL, "robert.sandell@somewhere.com");
+        JsonObject json = new JsonObject();
+        json.addProperty(GerritEventKeys.NAME, "Robert Sandell");
+        json.addProperty(GerritEventKeys.EMAIL, "robert.sandell@somewhere.com");
         Account account = new Account(json);
         String expected = "\"Robert Sandell\" <robert.sandell@somewhere.com>";
         assertEquals(expected, account.getNameAndEmail());

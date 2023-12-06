@@ -26,7 +26,7 @@ package com.sonymobile.tools.gerrit.gerritevents.dto.attr;
 import static com.sonymobile.tools.gerrit.gerritevents.GerritJsonEventFactory.getString;
 import static com.sonymobile.tools.gerrit.gerritevents.GerritJsonEventFactory.getBoolean;
 import com.sonymobile.tools.gerrit.gerritevents.dto.GerritJsonDTO;
-import net.sf.json.JSONObject;
+import com.google.gson.JsonObject;
 
 import static com.sonymobile.tools.gerrit.gerritevents.dto.GerritEventKeys.BY;
 import static com.sonymobile.tools.gerrit.gerritevents.dto.GerritEventKeys.TYPE;
@@ -83,23 +83,23 @@ public class Approval implements GerritJsonDTO {
      *
      * @param json the JSON object with corresponding data.
      */
-    public Approval(JSONObject json) {
+    public Approval(JsonObject json) {
         this.fromJson(json);
     }
 
     @Override
-    public void fromJson(JSONObject json) {
-        if (json.containsKey(TYPE) && json.containsKey(VALUE)) {
+    public void fromJson(JsonObject json) {
+        if (json.has(TYPE) && json.has(VALUE)) {
             type = getString(json, TYPE);
             value = getString(json, VALUE);
         }
-        if (json.containsKey(BY)) {
-            by = new Account(json.getJSONObject(BY));
+        if (json.has(BY)) {
+            by = new Account(json.getAsJsonObject(BY));
         }
-        if (json.containsKey(UPDATED)) {
+        if (json.has(UPDATED)) {
             updated = getBoolean(json, UPDATED);
         }
-        if (json.containsKey(OLD_VALUE)) {
+        if (json.has(OLD_VALUE)) {
             oldValue = getString(json, OLD_VALUE);
         }
     }

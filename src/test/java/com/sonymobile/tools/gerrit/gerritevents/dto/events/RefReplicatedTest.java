@@ -26,7 +26,7 @@ package com.sonymobile.tools.gerrit.gerritevents.dto.events;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import net.sf.json.JSONObject;
+import com.google.gson.JsonObject;
 
 import org.junit.Test;
 
@@ -58,15 +58,15 @@ public class RefReplicatedTest {
     }
 
     /**
-     * Tests {@link RefReplicated#fromJson(net.sf.json.JSONObject)}.
+     * Tests {@link RefReplicated#fromJson(net.sf.json.JsonObject)}.
      */
     @Test
     public void testFromJSON() {
-        JSONObject json = new JSONObject();
-        json.put(GerritEventKeys.PROJECT, "someProject");
-        json.put(GerritEventKeys.REF, "refs/changes/00/100/2");
-        json.put(GerritEventKeys.STATUS, "Success");
-        json.put(GerritEventKeys.TARGET_NODE, "someNode");
+        JsonObject json = new JsonObject();
+        json.addProperty(GerritEventKeys.PROJECT, "someProject");
+        json.addProperty(GerritEventKeys.REF, "refs/changes/00/100/2");
+        json.addProperty(GerritEventKeys.STATUS, "Success");
+        json.addProperty(GerritEventKeys.TARGET_NODE, "someNode");
 
         RefReplicated refReplicated = new RefReplicated();
         refReplicated.fromJson(json);

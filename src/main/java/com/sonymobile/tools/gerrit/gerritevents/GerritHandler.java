@@ -35,9 +35,9 @@ import com.sonymobile.tools.gerrit.gerritevents.workers.JSONEventWork;
 import com.sonymobile.tools.gerrit.gerritevents.workers.StreamEventsStringWork;
 import com.sonymobile.tools.gerrit.gerritevents.workers.Work;
 
-import net.sf.json.JSONObject;
+import com.google.gson.JsonObject;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -251,7 +251,7 @@ public class GerritHandler implements Coordinator, Handler {
     }
 
     @Override
-    public void post(JSONObject json) {
+    public void post(JsonObject json) {
         post(json, null);
     }
 
@@ -262,7 +262,7 @@ public class GerritHandler implements Coordinator, Handler {
     }
 
     @Override
-    public void post(JSONObject json, Provider provider) {
+    public void post(JsonObject json, Provider provider) {
         logger.debug("Trigger event json object: {}", json);
         post(new JSONEventWork(json, provider));
     }

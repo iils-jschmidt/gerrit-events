@@ -29,9 +29,10 @@ import com.sonymobile.tools.gerrit.gerritevents.dto.GerritJsonDTO;
 
 import com.sonymobile.tools.gerrit.gerritevents.dto.rest.Topic;
 import com.sonymobile.tools.gerrit.gerritevents.helpers.FileHelper;
-import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
-import org.apache.commons.lang.StringUtils;
+
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -173,14 +174,14 @@ public class Change implements GerritJsonDTO {
     /**
      * Constructor that fills with data directly.
      * @param json the JSON Object with corresponding data.
-     * @see #fromJson(net.sf.json.JSONObject)
+     * @see #fromJson(net.sf.json.JsonObject)
      */
-    public Change(JSONObject json) {
+    public Change(JsonObject json) {
         this.fromJson(json);
     }
 
     @Override
-    public void fromJson(JSONObject json) {
+    public void fromJson(JsonObject json) {
         project = getString(json, PROJECT);
         branch = getString(json, BRANCH);
         id = getString(json, ID);
@@ -188,31 +189,31 @@ public class Change implements GerritJsonDTO {
         subject = getString(json, SUBJECT);
         createdOn = getDate(json, CREATED_ON);
         lastUpdated = getDate(json, LAST_UPDATED);
-        if (json.containsKey(OWNER)) {
-            owner = new Account(json.getJSONObject(OWNER));
+        if (json.has(OWNER)) {
+            owner = new Account(json.getAsJsonObject(OWNER));
         }
-        if (json.containsKey(COMMENTS)) {
+        if (json.has(COMMENTS)) {
             comments = new ArrayList<Comment>();
-            JSONArray eventApprovals = json.getJSONArray(COMMENTS);
+            JsonArray eventApprovals = json.getAsJsonArray(COMMENTS);
             for (int i = 0; i < eventApprovals.size(); i++) {
-                comments.add(new Comment(eventApprovals.getJSONObject(i)));
+                comments.add(new Comment(eventApprovals.get(i).getAsJsonObject()));
             }
         }
-        if (json.containsKey(COMMIT_MESSAGE)) {
+        if (json.has(COMMIT_MESSAGE)) {
             commitMessage = getString(json, COMMIT_MESSAGE);
         }
-        if (json.containsKey(TOPIC)) {
+        if (json.has(TOPIC)) {
             String topicName = getString(json, TOPIC);
             if (StringUtils.isNotEmpty(topicName)) {
                 topicObject = new Topic(topicName);
             }
         }
 
-        if (json.containsKey(HASHTAGS)) {
-            JSONArray tags = json.getJSONArray(HASHTAGS);
+        if (json.has(HASHTAGS)) {
+            JsonArray tags = json.getAsJsonArray(HASHTAGS);
             hashtags = new ArrayList<String>(tags.size());
             for (int i = 0; i < tags.size(); i++) {
-                hashtags.add(tags.getString(i));
+                hashtags.add(tags.get(i).getAsString());
             }
         } else {
             hashtags = Collections.emptyList();

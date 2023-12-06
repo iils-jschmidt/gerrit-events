@@ -30,7 +30,7 @@ import static com.sonymobile.tools.gerrit.gerritevents.dto.GerritEventKeys.SUBMI
 import com.sonymobile.tools.gerrit.gerritevents.dto.GerritEventType;
 import com.sonymobile.tools.gerrit.gerritevents.dto.attr.Account;
 
-import net.sf.json.JSONObject;
+import com.google.gson.JsonObject;
 
 /**
  * A DTO representation of the merge-failed Gerrit Event.
@@ -59,13 +59,13 @@ public class MergeFailed extends ChangeBasedEvent {
     }
 
     @Override
-    public void fromJson(JSONObject json) {
+    public void fromJson(JsonObject json) {
         super.fromJson(json);
-        if (json.containsKey(SUBMITTER)) {
-            this.submitter = new Account(json.getJSONObject(SUBMITTER));
+        if (json.has(SUBMITTER)) {
+            this.submitter = new Account(json.getAsJsonObject(SUBMITTER));
         }
-        if (json.containsKey(REASON)) {
-            this.reason = json.getString(REASON);
+        if (json.has(REASON)) {
+            this.reason = json.get(REASON).getAsString();
         }
     }
 

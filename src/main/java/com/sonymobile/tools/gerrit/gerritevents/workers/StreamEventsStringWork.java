@@ -27,7 +27,7 @@ package com.sonymobile.tools.gerrit.gerritevents.workers;
 
 import com.sonymobile.tools.gerrit.gerritevents.GerritJsonEventFactory;
 import com.sonymobile.tools.gerrit.gerritevents.dto.attr.Provider;
-import net.sf.json.JSONObject;
+import com.google.gson.JsonObject;
 
 /**
  * Top of the hierarchies of work, converts the string to JSON if it is interesting and usable.
@@ -69,7 +69,7 @@ public class StreamEventsStringWork extends AbstractJsonObjectWork {
 
     @Override
     public void perform(Coordinator coordinator) {
-        JSONObject obj = GerritJsonEventFactory.getJsonObjectIfInterestingAndUsable(getLine());
+        JsonObject obj = GerritJsonEventFactory.getJsonObjectIfInterestingAndUsable(getLine());
         if (obj != null) {
             perform(obj, coordinator, provider);
         }

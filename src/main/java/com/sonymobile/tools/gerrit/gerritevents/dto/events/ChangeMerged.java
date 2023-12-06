@@ -28,7 +28,7 @@ import com.sonymobile.tools.gerrit.gerritevents.dto.GerritEventType;
 import com.sonymobile.tools.gerrit.gerritevents.dto.RepositoryModifiedEvent;
 import com.sonymobile.tools.gerrit.gerritevents.dto.attr.Account;
 
-import net.sf.json.JSONObject;
+import com.google.gson.JsonObject;
 import static com.sonymobile.tools.gerrit.gerritevents.dto.GerritEventKeys.SUBMITTER;
 import static com.sonymobile.tools.gerrit.gerritevents.dto.GerritEventKeys.NEWREV;
 import static com.sonymobile.tools.gerrit.gerritevents.GerritJsonEventFactory.getString;
@@ -54,9 +54,9 @@ public class ChangeMerged extends ChangeBasedEvent implements RepositoryModified
      * Constructor that fills data directly.
      *
      * @param json the JSON Object
-     * @see #fromJson(net.sf.json.JSONObject)
+     * @see #fromJson(net.sf.json.JsonObject)
      */
-    public ChangeMerged(JSONObject json) {
+    public ChangeMerged(JsonObject json) {
         fromJson(json);
     }
 
@@ -87,13 +87,13 @@ public class ChangeMerged extends ChangeBasedEvent implements RepositoryModified
     }
 
     @Override
-    public void fromJson(JSONObject json) {
+    public void fromJson(JsonObject json) {
         super.fromJson(json);
-        if (json.containsKey(SUBMITTER)) {
-            account = new Account(json.getJSONObject(SUBMITTER));
+        if (json.has(SUBMITTER)) {
+            account = new Account(json.getAsJsonObject(SUBMITTER));
         }
 
-        if (json.containsKey(NEWREV)) {
+        if (json.has(NEWREV)) {
             this.newRev = getString(json, NEWREV);
         }
     }

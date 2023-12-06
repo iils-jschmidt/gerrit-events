@@ -34,7 +34,9 @@ import com.sonymobile.tools.gerrit.gerritevents.rest.RestConnectionConfig;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import net.sf.json.JSONObject;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
 import org.apache.commons.io.IOUtils;
 import org.apache.http.auth.Credentials;
 import org.apache.http.auth.UsernamePasswordCredentials;
@@ -93,12 +95,12 @@ public class AbstractRestCommandJob2Test {
             String response = job.call();
             assertTrue("Invalid target: " + handler.actualTarget, handler.targetOk);
 
-            JSONObject json = JSONObject.fromObject(handler.requestContent);
+            JsonObject json = JsonParser.parseString(handler.requestContent).getAsJsonObject();
             System.out.println("JSON: " + json.toString());
             System.out.println("RESPONSE: " + response);
-            assertEquals(expectedMessage, json.getString("message"));
-            JSONObject labels = json.getJSONObject("labels");
-            assertEquals("Bad label value", expectedLabelValue, labels.getInt(expectedLabelName));
+            assertEquals(expectedMessage, json.get("message").getAsString());
+            JsonObject labels = json.getAsJsonObject("labels");
+            assertEquals("Bad label value", expectedLabelValue, labels.get(expectedLabelName).getAsInt());
         } finally {
             server.stop();
         }

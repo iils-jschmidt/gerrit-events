@@ -25,7 +25,7 @@ package com.sonymobile.tools.gerrit.gerritevents.dto.events;
 
 import com.sonymobile.tools.gerrit.gerritevents.dto.GerritEventType;
 import com.sonymobile.tools.gerrit.gerritevents.dto.attr.Account;
-import net.sf.json.JSONObject;
+import com.google.gson.JsonObject;
 
 import static com.sonymobile.tools.gerrit.gerritevents.dto.GerritEventKeys.NOTIFIER;
 
@@ -50,10 +50,10 @@ public class PatchsetNotified extends ChangeBasedEvent {
     }
 
     @Override
-    public void fromJson(JSONObject json) {
+    public void fromJson(JsonObject json) {
         super.fromJson(json);
-        if (json.containsKey(NOTIFIER)) {
-            this.account = new Account(json.getJSONObject(NOTIFIER));
+        if (json.has(NOTIFIER)) {
+            this.account = new Account(json.getAsJsonObject(NOTIFIER));
         }
     }
 

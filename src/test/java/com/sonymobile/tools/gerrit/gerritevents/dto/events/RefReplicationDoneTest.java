@@ -26,7 +26,7 @@ package com.sonymobile.tools.gerrit.gerritevents.dto.events;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import net.sf.json.JSONObject;
+import com.google.gson.JsonObject;
 
 import org.junit.Test;
 
@@ -58,15 +58,15 @@ public class RefReplicationDoneTest {
     }
 
     /**
-     * Tests {@link RefReplicationDone#fromJson(net.sf.json.JSONObject)}.
+     * Tests {@link RefReplicationDone#fromJson(net.sf.json.JsonObject)}.
      */
     @Test
     public void testFromJSON() {
-        JSONObject json = new JSONObject();
-        json.put(GerritEventKeys.PROJECT, "someProject");
-        json.put(GerritEventKeys.REF, "refs/changes/00/100/2");
+        JsonObject json = new JsonObject();
+        json.addProperty(GerritEventKeys.PROJECT, "someProject");
+        json.addProperty(GerritEventKeys.REF, "refs/changes/00/100/2");
         //CS IGNORE MagicNumber FOR NEXT 1 LINES. REASON: test code.
-        json.put(GerritEventKeys.NODES_COUNT, "5");
+        json.addProperty(GerritEventKeys.NODES_COUNT, "5");
 
         RefReplicationDone refReplicationDone = new RefReplicationDone();
         refReplicationDone.fromJson(json);

@@ -27,7 +27,7 @@ package com.sonymobile.tools.gerrit.gerritevents.dto.events;
 import com.sonymobile.tools.gerrit.gerritevents.dto.GerritEventType;
 import com.sonymobile.tools.gerrit.gerritevents.dto.RepositoryModifiedEvent;
 import com.sonymobile.tools.gerrit.gerritevents.dto.attr.Account;
-import net.sf.json.JSONObject;
+import com.google.gson.JsonObject;
 
 import static com.sonymobile.tools.gerrit.gerritevents.dto.GerritEventKeys.UPLOADER;
 
@@ -54,10 +54,10 @@ public class PatchsetCreated extends ChangeBasedEvent implements RepositoryModif
     }
 
     @Override
-    public void fromJson(JSONObject json) {
+    public void fromJson(JsonObject json) {
         super.fromJson(json);
-        if (json.containsKey(UPLOADER)) {
-            this.account = new Account(json.getJSONObject(UPLOADER));
+        if (json.has(UPLOADER)) {
+            this.account = new Account(json.getAsJsonObject(UPLOADER));
         }
     }
 

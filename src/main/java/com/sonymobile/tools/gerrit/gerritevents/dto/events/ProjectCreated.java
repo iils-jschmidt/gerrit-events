@@ -25,7 +25,7 @@ package com.sonymobile.tools.gerrit.gerritevents.dto.events;
 
 import com.sonymobile.tools.gerrit.gerritevents.dto.GerritEventType;
 import com.sonymobile.tools.gerrit.gerritevents.dto.RepositoryModifiedEvent;
-import net.sf.json.JSONObject;
+import com.google.gson.JsonObject;
 
 import static com.sonymobile.tools.gerrit.gerritevents.GerritJsonEventFactory.getString;
 import static com.sonymobile.tools.gerrit.gerritevents.dto.GerritEventKeys.PROJECT_NAME;
@@ -81,7 +81,7 @@ public class ProjectCreated extends GerritTriggeredEvent implements RepositoryMo
     }
 
     @Override
-    public void fromJson(JSONObject json) {
+    public void fromJson(JsonObject json) {
         super.fromJson(json);
         projectName = getString(json, PROJECT_NAME);
         headName = getString(json, HEAD_NAME);

@@ -23,7 +23,7 @@
  */
 package com.sonymobile.tools.gerrit.gerritevents;
 
-import net.sf.json.JSONObject;
+import com.google.gson.JsonObject;
 import com.sonymobile.tools.gerrit.gerritevents.dto.GerritEvent;
 import com.sonymobile.tools.gerrit.gerritevents.dto.attr.Provider;
 
@@ -54,7 +54,7 @@ public interface Handler {
      *
      * @param json a json object from the stream-events stream of events.
      */
-    void post(JSONObject json);
+    void post(JsonObject json);
     /**
      * Post json object to working queue.
      * Note that you must not update objects passed to this method.
@@ -62,7 +62,7 @@ public interface Handler {
      * @param json a json object from the stream-events stream of events.
      * @param provider the Gerrit server info.
      */
-    void post(JSONObject json, Provider provider);
+    void post(JsonObject json, Provider provider);
     /**
      * Post GerritEvent object to working queue.
      * Note that you must not update objects passed to this method.

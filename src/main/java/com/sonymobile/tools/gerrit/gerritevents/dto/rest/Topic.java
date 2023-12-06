@@ -29,8 +29,8 @@ import com.sonymobile.tools.gerrit.gerritevents.GerritQueryHandler;
 import com.sonymobile.tools.gerrit.gerritevents.dto.attr.Change;
 import com.sonymobile.tools.gerrit.gerritevents.dto.attr.PatchSet;
 import com.sonymobile.tools.gerrit.gerritevents.dto.events.ChangeBasedEvent;
-import net.sf.json.JSONObject;
-import org.apache.commons.lang.StringUtils;
+import com.google.gson.JsonObject;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -80,13 +80,13 @@ public class Topic {
 
         Map<Change, PatchSet> result = new HashMap<Change, PatchSet>();
         try {
-            List<JSONObject> jsonList = gerritQueryHandler.queryCurrentPatchSets("topic:{" + name + "}");
-            for (JSONObject json : jsonList) {
-                if (json.has("type") && "stats".equalsIgnoreCase(json.getString("type"))) {
+            List<JsonObject> jsonList = gerritQueryHandler.queryCurrentPatchSets("topic:{" + name + "}");
+            for (JsonObject json : jsonList) {
+                if (json.has("type") && "stats".equalsIgnoreCase(json.get("type").getAsString())) {
                     continue;
                 }
                 if (json.has("currentPatchSet")) {
-                    JSONObject currentPatchSet = json.getJSONObject("currentPatchSet");
+                    JsonObject currentPatchSet = json.getAsJsonObject("currentPatchSet");
                     result.put(new Change(json), new PatchSet(currentPatchSet));
                 }
             }

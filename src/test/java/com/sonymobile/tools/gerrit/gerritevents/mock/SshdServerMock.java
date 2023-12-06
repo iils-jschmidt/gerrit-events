@@ -50,8 +50,8 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.lang.reflect.Constructor;
 
-import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 
 import com.jcraft.jsch.KeyPair;
 
@@ -707,70 +707,70 @@ public class SshdServerMock implements CommandFactory {
             final int createdOn2 = 1449168976;
             final int lastUpdated = 1449170950;
 
-            JSONObject jsonAccount = new JSONObject();
-            jsonAccount.put(EMAIL, "EngyCZ@gmail.com");
-            jsonAccount.put(NAME, "Engy");
+            JsonObject jsonAccount = new JsonObject();
+            jsonAccount.addProperty(EMAIL, "EngyCZ@gmail.com");
+            jsonAccount.addProperty(NAME, "Engy");
 
-            JSONArray parents = new JSONArray();
+            JsonArray parents = new JsonArray();
             parents.add("31581608d63510c13d7cb12d3e9a245ca4f72a62");
 
-            JSONObject currentPatchSet = new JSONObject();
-            currentPatchSet.put(NUMBER, "2");
-            currentPatchSet.put(REVISION, "87861b77a7614f8e6da19b017c588b741911983c");
-            currentPatchSet.put(PARENTS, parents);
-            currentPatchSet.put(REF, "refs/changes/00/100/2");
-            currentPatchSet.put(UPLOADER, jsonAccount);
-            currentPatchSet.put(CREATED_ON, createdOn1);
-            currentPatchSet.put(AUTHOR, jsonAccount);
+            JsonObject currentPatchSet = new JsonObject();
+            currentPatchSet.addProperty(NUMBER, "2");
+            currentPatchSet.addProperty(REVISION, "87861b77a7614f8e6da19b017c588b741911983c");
+            currentPatchSet.add(PARENTS, parents);
+            currentPatchSet.addProperty(REF, "refs/changes/00/100/2");
+            currentPatchSet.add(UPLOADER, jsonAccount);
+            currentPatchSet.addProperty(CREATED_ON, createdOn1);
+            currentPatchSet.add(AUTHOR, jsonAccount);
 
-            JSONArray approvals = new JSONArray();
+            JsonArray approvals = new JsonArray();
 
-            JSONObject crw = new JSONObject();
-            crw.put(TYPE, "Code-Review");
-            crw.put(VALUE, "2");
+            JsonObject crw = new JsonObject();
+            crw.addProperty(TYPE, "Code-Review");
+            crw.addProperty(VALUE, "2");
             approvals.add(crw);
 
-            crw = new JSONObject();
-            crw.put(TYPE, "Code-Review");
-            crw.put(VALUE, "1");
+            crw = new JsonObject();
+            crw.addProperty(TYPE, "Code-Review");
+            crw.addProperty(VALUE, "1");
             approvals.add(crw);
 
-            crw = new JSONObject();
-            crw.put(TYPE, "Code-Review");
-            crw.put(VALUE, "-1");
+            crw = new JsonObject();
+            crw.addProperty(TYPE, "Code-Review");
+            crw.addProperty(VALUE, "-1");
             approvals.add(crw);
 
-            crw = new JSONObject();
-            crw.put(TYPE, "Verified");
-            crw.put(VALUE, "2");
+            crw = new JsonObject();
+            crw.addProperty(TYPE, "Verified");
+            crw.addProperty(VALUE, "2");
             approvals.add(crw);
 
-            crw = new JSONObject();
-            crw.put(TYPE, "Verified");
-            crw.put(VALUE, "1");
+            crw = new JsonObject();
+            crw.addProperty(TYPE, "Verified");
+            crw.addProperty(VALUE, "1");
             approvals.add(crw);
 
-            crw = new JSONObject();
-            crw.put(TYPE, "Verified");
-            crw.put(VALUE, "-1");
+            crw = new JsonObject();
+            crw.addProperty(TYPE, "Verified");
+            crw.addProperty(VALUE, "-1");
             approvals.add(crw);
 
-            currentPatchSet.put(APPROVALS, approvals);
+            currentPatchSet.add(APPROVALS, approvals);
 
-            JSONObject change = new JSONObject();
-            change.put(PROJECT, "project");
-            change.put(BRANCH, "branch");
-            change.put(ID, "I2343434344");
-            change.put(NUMBER, "100");
-            change.put(SUBJECT, "subject");
-            change.put(OWNER, jsonAccount);
-            change.put(URL, "http://localhost:8080");
-            change.put(COMMIT_MESSAGE, "Change");
-            change.put(CREATED_ON, createdOn2);
-            change.put(LAST_UPDATED, lastUpdated);
-            change.put("open", true);
-            change.put(STATUS, "NEW");
-            change.put("currentPatchSet", currentPatchSet);
+            JsonObject change = new JsonObject();
+            change.addProperty(PROJECT, "project");
+            change.addProperty(BRANCH, "branch");
+            change.addProperty(ID, "I2343434344");
+            change.addProperty(NUMBER, "100");
+            change.addProperty(SUBJECT, "subject");
+            change.add(OWNER, jsonAccount);
+            change.addProperty(URL, "http://localhost:8080");
+            change.addProperty(COMMIT_MESSAGE, "Change");
+            change.addProperty(CREATED_ON, createdOn2);
+            change.addProperty(LAST_UPDATED, lastUpdated);
+            change.addProperty("open", true);
+            change.addProperty(STATUS, "NEW");
+            change.add("currentPatchSet", currentPatchSet);
 
             System.out.println("Starting QueryLastPatchSet: " + getCommand());
             try (PrintWriter out = new PrintWriter(new BufferedWriter(
@@ -802,93 +802,93 @@ public class SshdServerMock implements CommandFactory {
             final int createdOn2 = 1449168976;
             final int lastUpdated = 1449170950;
 
-            JSONObject jsonAccount = new JSONObject();
-            jsonAccount.put(EMAIL, "EngyCZ@gmail.com");
-            jsonAccount.put(NAME, "Engy");
+            JsonObject jsonAccount = new JsonObject();
+            jsonAccount.addProperty(EMAIL, "EngyCZ@gmail.com");
+            jsonAccount.addProperty(NAME, "Engy");
 
-            JSONArray parents = new JSONArray();
+            JsonArray parents = new JsonArray();
             parents.add("31581608d63510c13d7cb12d3e9a245ca4f72a62");
 
-            JSONObject currentPatchSet = new JSONObject();
-            currentPatchSet.put(NUMBER, "2");
-            currentPatchSet.put(REVISION, "87861b77a7614f8e6da19b017c588b741911983c");
-            currentPatchSet.put(PARENTS, parents);
-            currentPatchSet.put(REF, "refs/changes/00/100/2");
-            currentPatchSet.put(UPLOADER, jsonAccount);
-            currentPatchSet.put(CREATED_ON, createdOn1);
-            currentPatchSet.put(AUTHOR, jsonAccount);
+            JsonObject currentPatchSet = new JsonObject();
+            currentPatchSet.addProperty(NUMBER, "2");
+            currentPatchSet.addProperty(REVISION, "87861b77a7614f8e6da19b017c588b741911983c");
+            currentPatchSet.add(PARENTS, parents);
+            currentPatchSet.addProperty(REF, "refs/changes/00/100/2");
+            currentPatchSet.add(UPLOADER, jsonAccount);
+            currentPatchSet.addProperty(CREATED_ON, createdOn1);
+            currentPatchSet.add(AUTHOR, jsonAccount);
 
-            JSONArray approvals = new JSONArray();
+            JsonArray approvals = new JsonArray();
 
-            JSONObject crw = new JSONObject();
-            crw.put(TYPE, "Code-Review");
-            crw.put(VALUE, "2");
+            JsonObject crw = new JsonObject();
+            crw.addProperty(TYPE, "Code-Review");
+            crw.addProperty(VALUE, "2");
             approvals.add(crw);
 
-            crw = new JSONObject();
-            crw.put(TYPE, "Code-Review");
-            crw.put(VALUE, "1");
+            crw = new JsonObject();
+            crw.addProperty(TYPE, "Code-Review");
+            crw.addProperty(VALUE, "1");
             approvals.add(crw);
 
-            crw = new JSONObject();
-            crw.put(TYPE, "Code-Review");
-            crw.put(VALUE, "-1");
+            crw = new JsonObject();
+            crw.addProperty(TYPE, "Code-Review");
+            crw.addProperty(VALUE, "-1");
             approvals.add(crw);
 
-            crw = new JSONObject();
-            crw.put(TYPE, "Verified");
-            crw.put(VALUE, "2");
+            crw = new JsonObject();
+            crw.addProperty(TYPE, "Verified");
+            crw.addProperty(VALUE, "2");
             approvals.add(crw);
 
-            crw = new JSONObject();
-            crw.put(TYPE, "Verified");
-            crw.put(VALUE, "1");
+            crw = new JsonObject();
+            crw.addProperty(TYPE, "Verified");
+            crw.addProperty(VALUE, "1");
             approvals.add(crw);
 
-            crw = new JSONObject();
-            crw.put(TYPE, "Verified");
-            crw.put(VALUE, "-1");
+            crw = new JsonObject();
+            crw.addProperty(TYPE, "Verified");
+            crw.addProperty(VALUE, "-1");
             approvals.add(crw);
 
-            currentPatchSet.put(APPROVALS, approvals);
+            currentPatchSet.add(APPROVALS, approvals);
 
-            JSONObject patchSet1 = new JSONObject();
-            patchSet1.put(NUMBER, "1");
-            patchSet1.put(REVISION, "009365b77a69cd5ecd05a699b19213682f7f8d79");
-            patchSet1.put(PARENTS, parents);
-            patchSet1.put(REF, "refs/changes/00/100/1");
-            patchSet1.put(UPLOADER, jsonAccount);
-            patchSet1.put(CREATED_ON, createdOn2);
-            patchSet1.put(AUTHOR, jsonAccount);
+            JsonObject patchSet1 = new JsonObject();
+            patchSet1.addProperty(NUMBER, "1");
+            patchSet1.addProperty(REVISION, "009365b77a69cd5ecd05a699b19213682f7f8d79");
+            patchSet1.add(PARENTS, parents);
+            patchSet1.addProperty(REF, "refs/changes/00/100/1");
+            patchSet1.add(UPLOADER, jsonAccount);
+            patchSet1.addProperty(CREATED_ON, createdOn2);
+            patchSet1.add(AUTHOR, jsonAccount);
 
-            JSONObject patchSet2 = new JSONObject();
-            patchSet2.put(NUMBER, "2");
-            patchSet2.put(REVISION, "87861b77a7614f8e6da19b017c588b741911983c");
-            patchSet2.put(PARENTS, parents);
-            patchSet2.put(REF, "refs/changes/00/100/1");
-            patchSet2.put(UPLOADER, jsonAccount);
-            patchSet2.put(CREATED_ON, createdOn1);
-            patchSet2.put(AUTHOR, jsonAccount);
+            JsonObject patchSet2 = new JsonObject();
+            patchSet2.addProperty(NUMBER, "2");
+            patchSet2.addProperty(REVISION, "87861b77a7614f8e6da19b017c588b741911983c");
+            patchSet2.add(PARENTS, parents);
+            patchSet2.addProperty(REF, "refs/changes/00/100/1");
+            patchSet2.add(UPLOADER, jsonAccount);
+            patchSet2.addProperty(CREATED_ON, createdOn1);
+            patchSet2.add(AUTHOR, jsonAccount);
 
-            JSONArray patchSets = new JSONArray();
+            JsonArray patchSets = new JsonArray();
             patchSets.add(patchSet1);
             patchSets.add(patchSet2);
 
-            JSONObject change = new JSONObject();
-            change.put(PROJECT, "project");
-            change.put(BRANCH, "branch");
-            change.put(ID, "I2343434344");
-            change.put(NUMBER, "100");
-            change.put(SUBJECT, "subject");
-            change.put(OWNER, jsonAccount);
-            change.put(URL, "http://localhost:8080");
-            change.put(COMMIT_MESSAGE, "Change");
-            change.put(CREATED_ON, createdOn2);
-            change.put(LAST_UPDATED, lastUpdated);
-            change.put("open", true);
-            change.put(STATUS, "NEW");
-            change.put("currentPatchSet", currentPatchSet);
-            change.put("patchSets", patchSets);
+            JsonObject change = new JsonObject();
+            change.addProperty(PROJECT, "project");
+            change.addProperty(BRANCH, "branch");
+            change.addProperty(ID, "I2343434344");
+            change.addProperty(NUMBER, "100");
+            change.addProperty(SUBJECT, "subject");
+            change.add(OWNER, jsonAccount);
+            change.addProperty(URL, "http://localhost:8080");
+            change.addProperty(COMMIT_MESSAGE, "Change");
+            change.addProperty(CREATED_ON, createdOn2);
+            change.addProperty(LAST_UPDATED, lastUpdated);
+            change.addProperty("open", true);
+            change.addProperty(STATUS, "NEW");
+            change.add("currentPatchSet", currentPatchSet);
+            change.add("patchSets", patchSets);
 
             System.out.println("Starting QueryAllPatchSets: " + getCommand());
             try (PrintWriter out = new PrintWriter(new BufferedWriter(
@@ -920,92 +920,92 @@ public class SshdServerMock implements CommandFactory {
             final int createdOn2 = 1449168976;
             final int lastUpdated = 1449170950;
 
-            JSONObject jsonAccount = new JSONObject();
-            jsonAccount.put(EMAIL, "EngyCZ@gmail.com");
-            jsonAccount.put(NAME, "Engy");
+            JsonObject jsonAccount = new JsonObject();
+            jsonAccount.addProperty(EMAIL, "EngyCZ@gmail.com");
+            jsonAccount.addProperty(NAME, "Engy");
 
-            JSONArray parents = new JSONArray();
+            JsonArray parents = new JsonArray();
             parents.add("31581608d63510c13d7cb12d3e9a245ca4f72a62");
 
-            JSONArray approvals = new JSONArray();
+            JsonArray approvals = new JsonArray();
 
-            JSONObject crw = new JSONObject();
-            crw.put(TYPE, "Code-Review");
-            crw.put(VALUE, "2");
+            JsonObject crw = new JsonObject();
+            crw.addProperty(TYPE, "Code-Review");
+            crw.addProperty(VALUE, "2");
             approvals.add(crw);
 
-            crw = new JSONObject();
-            crw.put(TYPE, "Code-Review");
-            crw.put(VALUE, "1");
+            crw = new JsonObject();
+            crw.addProperty(TYPE, "Code-Review");
+            crw.addProperty(VALUE, "1");
             approvals.add(crw);
 
-            crw = new JSONObject();
-            crw.put(TYPE, "Code-Review");
-            crw.put(VALUE, "-1");
+            crw = new JsonObject();
+            crw.addProperty(TYPE, "Code-Review");
+            crw.addProperty(VALUE, "-1");
             approvals.add(crw);
 
-            crw = new JSONObject();
-            crw.put(TYPE, "Verified");
-            crw.put(VALUE, "2");
+            crw = new JsonObject();
+            crw.addProperty(TYPE, "Verified");
+            crw.addProperty(VALUE, "2");
             approvals.add(crw);
 
-            crw = new JSONObject();
-            crw.put(TYPE, "Verified");
-            crw.put(VALUE, "1");
+            crw = new JsonObject();
+            crw.addProperty(TYPE, "Verified");
+            crw.addProperty(VALUE, "1");
             approvals.add(crw);
 
-            crw = new JSONObject();
-            crw.put(TYPE, "Verified");
-            crw.put(VALUE, "-1");
+            crw = new JsonObject();
+            crw.addProperty(TYPE, "Verified");
+            crw.addProperty(VALUE, "-1");
             approvals.add(crw);
 
-            JSONObject patchSet1 = new JSONObject();
-            patchSet1.put(NUMBER, "1");
-            patchSet1.put(REVISION, "009365b77a69cd5ecd05a699b19213682f7f8d79");
-            patchSet1.put(PARENTS, parents);
-            patchSet1.put(REF, "refs/changes/00/100/1");
-            patchSet1.put(UPLOADER, jsonAccount);
-            patchSet1.put(CREATED_ON, createdOn2);
-            patchSet1.put(AUTHOR, jsonAccount);
-            patchSet1.put(APPROVALS, approvals);
+            JsonObject patchSet1 = new JsonObject();
+            patchSet1.addProperty(NUMBER, "1");
+            patchSet1.addProperty(REVISION, "009365b77a69cd5ecd05a699b19213682f7f8d79");
+            patchSet1.add(PARENTS, parents);
+            patchSet1.addProperty(REF, "refs/changes/00/100/1");
+            patchSet1.add(UPLOADER, jsonAccount);
+            patchSet1.addProperty(CREATED_ON, createdOn2);
+            patchSet1.add(AUTHOR, jsonAccount);
+            patchSet1.add(APPROVALS, approvals);
 
-            parents = new JSONArray();
+            parents = new JsonArray();
             parents.add("31581608d63510c13d7cb12d3e9a245ca4f72a66");
-            JSONObject patchSet2 = new JSONObject();
-            patchSet2.put(NUMBER, "1");
-            patchSet2.put(REVISION, "87861b77a7614f8e6da19b017c588b741911983c");
-            patchSet2.put(PARENTS, parents);
-            patchSet2.put(REF, "refs/changes/00/101/1");
-            patchSet2.put(UPLOADER, jsonAccount);
-            patchSet2.put(CREATED_ON, createdOn1);
-            patchSet2.put(AUTHOR, jsonAccount);
-            patchSet2.put(APPROVALS, approvals);
+            JsonObject patchSet2 = new JsonObject();
+            patchSet2.addProperty(NUMBER, "1");
+            patchSet2.addProperty(REVISION, "87861b77a7614f8e6da19b017c588b741911983c");
+            patchSet2.add(PARENTS, parents);
+            patchSet2.addProperty(REF, "refs/changes/00/101/1");
+            patchSet2.add(UPLOADER, jsonAccount);
+            patchSet2.addProperty(CREATED_ON, createdOn1);
+            patchSet2.add(AUTHOR, jsonAccount);
+            patchSet2.add(APPROVALS, approvals);
 
-            JSONObject change = new JSONObject();
-            change.put(PROJECT, "project");
-            change.put(BRANCH, "branch");
-            change.put(ID, "I2343434344");
-            change.put(NUMBER, "100");
-            change.put(SUBJECT, "subject");
-            change.put(OWNER, jsonAccount);
-            change.put(URL, "http://localhost:8080");
-            change.put(COMMIT_MESSAGE, "Change");
-            change.put(CREATED_ON, createdOn2);
-            change.put(LAST_UPDATED, lastUpdated);
-            change.put("open", true);
-            change.put(STATUS, "NEW");
-            change.put("currentPatchSet", patchSet1);
-            change.put("topic", "topic");
+            JsonObject change = new JsonObject();
+            change.addProperty(PROJECT, "project");
+            change.addProperty(BRANCH, "branch");
+            change.addProperty(ID, "I2343434344");
+            change.addProperty(NUMBER, "100");
+            change.addProperty(SUBJECT, "subject");
+            change.add(OWNER, jsonAccount);
+            change.addProperty(URL, "http://localhost:8080");
+            change.addProperty(COMMIT_MESSAGE, "Change");
+            change.addProperty(CREATED_ON, createdOn2);
+            change.addProperty(LAST_UPDATED, lastUpdated);
+            change.addProperty("open", true);
+            change.addProperty(STATUS, "NEW");
+            change.add("currentPatchSet", patchSet1);
+            change.addProperty("topic", "topic");
 
             System.out.println("Starting QueryTopic: " + getCommand());
             try (PrintWriter out = new PrintWriter(new BufferedWriter(
                         new OutputStreamWriter(getOutputStream(), StandardCharsets.UTF_8)))) {
                 System.out.println("Sending: " + change);
                 out.println(change);
-                change.put(PROJECT, "project2");
-                change.put(ID, "I2343434345");
-                change.put(NUMBER, "101");
-                change.put("currentPatchSet", patchSet2);
+                change.addProperty(PROJECT, "project2");
+                change.addProperty(ID, "I2343434345");
+                change.addProperty(NUMBER, "101");
+                change.add("currentPatchSet", patchSet2);
                 System.out.println("Sending: " + change);
                 out.println(change);
             }

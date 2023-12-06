@@ -29,8 +29,8 @@ import java.util.List;
 import com.sonymobile.tools.gerrit.gerritevents.dto.GerritEventType;
 import com.sonymobile.tools.gerrit.gerritevents.dto.attr.Account;
 import com.sonymobile.tools.gerrit.gerritevents.dto.attr.Approval;
-import net.sf.json.JSONObject;
-import net.sf.json.JSONArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonArray;
 
 import static com.sonymobile.tools.gerrit.gerritevents.GerritJsonEventFactory.getString;
 import static com.sonymobile.tools.gerrit.gerritevents.dto.GerritEventKeys.AUTHOR;
@@ -92,16 +92,16 @@ public class CommentAdded extends ChangeBasedEvent {
     }
 
     @Override
-    public void fromJson(JSONObject json) {
+    public void fromJson(JsonObject json) {
         super.fromJson(json);
         comment = getString(json, COMMENT);
-        if (json.containsKey(AUTHOR)) {
-            account = new Account(json.getJSONObject(AUTHOR));
+        if (json.has(AUTHOR)) {
+            account = new Account(json.getAsJsonObject(AUTHOR));
         }
-        if (json.containsKey(APPROVALS)) {
-            JSONArray eventApprovals = json.getJSONArray(APPROVALS);
+        if (json.has(APPROVALS)) {
+            JsonArray eventApprovals = json.getAsJsonArray(APPROVALS);
             for (int i = 0; i < eventApprovals.size(); i++) {
-                approvals.add(new Approval(eventApprovals.getJSONObject(i)));
+                approvals.add(new Approval(eventApprovals.get(i).getAsJsonObject()));
             }
         }
     }

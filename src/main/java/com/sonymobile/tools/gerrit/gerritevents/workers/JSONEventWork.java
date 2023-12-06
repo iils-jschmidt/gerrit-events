@@ -23,7 +23,7 @@
  */
 package com.sonymobile.tools.gerrit.gerritevents.workers;
 
-import net.sf.json.JSONObject;
+import com.google.gson.JsonObject;
 
 import com.sonymobile.tools.gerrit.gerritevents.GerritJsonEventFactory;
 import com.sonymobile.tools.gerrit.gerritevents.dto.attr.Provider;
@@ -38,11 +38,11 @@ public class JSONEventWork extends AbstractJsonObjectWork {
     /**
      * @return the json
      */
-    public JSONObject getJson() {
+    public JsonObject getJson() {
         return json;
     }
 
-    private JSONObject json;
+    private JsonObject json;
     private Provider provider;
 
     /**
@@ -50,7 +50,7 @@ public class JSONEventWork extends AbstractJsonObjectWork {
      *
      * @param json the JSON object.
      */
-    public JSONEventWork(JSONObject json) {
+    public JSONEventWork(JsonObject json) {
         this.json = json;
     }
 
@@ -60,7 +60,7 @@ public class JSONEventWork extends AbstractJsonObjectWork {
      * @param json the JSON object.
      * @param provider the provider.
      */
-    public JSONEventWork(JSONObject json, Provider provider) {
+    public JSONEventWork(JsonObject json, Provider provider) {
         this.json = json;
         this.provider = provider;
     }

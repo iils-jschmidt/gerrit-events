@@ -24,7 +24,7 @@
 
 package com.sonymobile.tools.gerrit.gerritevents.dto.attr;
 
-import net.sf.json.JSONObject;
+import com.google.gson.JsonObject;
 import org.junit.Test;
 
 import static com.sonymobile.tools.gerrit.gerritevents.dto.GerritEventKeys.OLDREV;
@@ -46,11 +46,11 @@ public class RefUpdatedTest {
      */
     @Test
     public void testLongRefName() throws Exception {
-        JSONObject json = new JSONObject();
-        json.put(PROJECT, "abc");
-        json.put(OLDREV, "ad123456789");
-        json.put(NEWREV, "cd123456789");
-        json.put(REFNAME, "refs/heads/master");
+        JsonObject json = new JsonObject();
+        json.addProperty(PROJECT, "abc");
+        json.addProperty(OLDREV, "ad123456789");
+        json.addProperty(NEWREV, "cd123456789");
+        json.addProperty(REFNAME, "refs/heads/master");
         RefUpdate refUpdate = new RefUpdate();
         refUpdate.fromJson(json);
 
@@ -65,11 +65,11 @@ public class RefUpdatedTest {
      */
     @Test
     public void testShortRefName() throws Exception {
-        JSONObject json = new JSONObject();
-        json.put(PROJECT, "abc");
-        json.put(OLDREV, "ad123456789");
-        json.put(NEWREV, "cd123456789");
-        json.put(REFNAME, "master");
+        JsonObject json = new JsonObject();
+        json.addProperty(PROJECT, "abc");
+        json.addProperty(OLDREV, "ad123456789");
+        json.addProperty(NEWREV, "cd123456789");
+        json.addProperty(REFNAME, "master");
         RefUpdate refUpdate = new RefUpdate();
         refUpdate.fromJson(json);
 
@@ -84,11 +84,11 @@ public class RefUpdatedTest {
      */
     @Test
     public void testTags() throws Exception {
-        JSONObject json = new JSONObject();
-        json.put(PROJECT, "abc");
-        json.put(OLDREV, "ad123456789");
-        json.put(NEWREV, "cd123456789");
-        json.put(REFNAME, "refs/tags/abc");
+        JsonObject json = new JsonObject();
+        json.addProperty(PROJECT, "abc");
+        json.addProperty(OLDREV, "ad123456789");
+        json.addProperty(NEWREV, "cd123456789");
+        json.addProperty(REFNAME, "refs/tags/abc");
         RefUpdate refUpdate = new RefUpdate();
         refUpdate.fromJson(json);
 

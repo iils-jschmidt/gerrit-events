@@ -24,7 +24,7 @@
 
 package com.sonymobile.tools.gerrit.gerritevents.watchdog;
 
-import net.sf.json.JSONObject;
+import com.google.gson.JsonObject;
 
 import java.util.Calendar;
 import java.util.List;
@@ -190,14 +190,14 @@ public class WatchTimeExceptionData {
         }
 
         /**
-         * Creates a TimeSpan object from a JSONObject.
+         * Creates a TimeSpan object from a JsonObject.
          *
-         * @param jsonObject the JSONObject to create a TimeSpan from.
+         * @param jsonObject the JsonObject to create a TimeSpan from.
          * @return a new TimeSpan object.
          */
-        public static TimeSpan createTimeSpanFromJSONObject(JSONObject jsonObject) {
-            String from = jsonObject.getString("from");
-            String to = jsonObject.getString("to");
+        public static TimeSpan createTimeSpanFromJsonObject(JsonObject jsonObject) {
+            String from = jsonObject.get("from").getAsString();
+            String to = jsonObject.get("to").getAsString();
             return new TimeSpan(Time.createTimeFromString(from), Time.createTimeFromString(to));
         }
 

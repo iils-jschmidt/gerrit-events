@@ -26,12 +26,14 @@ package com.sonymobile.tools.gerrit.gerritevents.dto.events;
 
 import com.sonymobile.tools.gerrit.gerritevents.GerritJsonEventFactory;
 import com.sonymobile.tools.gerrit.gerritevents.dto.GerritEvent;
-import net.sf.json.JSONObject;
-import org.apache.commons.io.IOUtils;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
 import org.junit.Test;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.Arrays;
 
 import static org.junit.Assert.assertEquals;
@@ -49,8 +51,7 @@ public class HashtagsChangedTest {
     @Test
     public void fromJsonShouldDeserializeHashtagsCorrectly() throws IOException {
         InputStream stream = getClass().getResourceAsStream("DeserializeHashtagsChangedTest.json");
-        String json = IOUtils.toString(stream);
-        JSONObject jsonObject = JSONObject.fromObject(json);
+        JsonObject jsonObject = JsonParser.parseReader(new InputStreamReader(stream)).getAsJsonObject();
         GerritEvent evt = GerritJsonEventFactory.getEvent(jsonObject);
 
         assertTrue("is an HashtagsChanged", evt instanceof HashtagsChanged);

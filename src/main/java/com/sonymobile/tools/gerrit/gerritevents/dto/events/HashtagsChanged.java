@@ -25,11 +25,13 @@
 package com.sonymobile.tools.gerrit.gerritevents.dto.events;
 
 import com.sonymobile.tools.gerrit.gerritevents.dto.GerritEventType;
-import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 import static com.sonymobile.tools.gerrit.gerritevents.dto.GerritEventKeys.HASHTAGS;
@@ -80,7 +82,7 @@ public class HashtagsChanged extends ChangeBasedEvent {
     }
 
     @Override
-    public void fromJson(JSONObject json) {
+    public void fromJson(JsonObject json) {
         super.fromJson(json);
 
         this.hashtags = hashtagsFromArray(json, HASHTAGS);
@@ -92,15 +94,16 @@ public class HashtagsChanged extends ChangeBasedEvent {
      * Converts an array key from JSON into a list of the strings it contains.
      *
      * @param json The json object.
-     * @param array The array name within the json object.
+     * @param arrayName The array name within the json object.
      * @return A list of strings contained in the array or an empty list if the array is not present.
      */
-    private List<String> hashtagsFromArray(JSONObject json, String array) {
-        if (json.containsKey(array)) {
-            JSONArray hashtagsArray = json.getJSONArray(array);
-            List<String> result = new ArrayList<String>(hashtagsArray.size());
-            for (Object tag : hashtagsArray) {
-                result.add(tag.toString());
+    private List<String> hashtagsFromArray(JsonObject json, String arrayName) {
+        if (json.has(arrayName)) {
+            JsonArray hashtagsArray = json.getAsJsonArray(arrayName);
+            List<String> result = new ArrayList<>(hashtagsArray.size());
+            Iterator<JsonElement> iter = hashtagsArray.iterator();
+            while (iter.hasNext()) {
+                result.add(iter.next().getAsString());
             }
             return result;
         }

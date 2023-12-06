@@ -28,7 +28,7 @@ import com.sonymobile.tools.gerrit.gerritevents.GerritJsonEventFactory;
 import com.sonymobile.tools.gerrit.gerritevents.dto.GerritEvent;
 import com.sonymobile.tools.gerrit.gerritevents.dto.attr.Provider;
 import com.sonymobile.tools.gerrit.gerritevents.dto.events.GerritTriggeredEvent;
-import net.sf.json.JSONObject;
+import com.google.gson.JsonObject;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -59,12 +59,12 @@ public abstract class AbstractJsonObjectWork extends AbstractGerritEventWork {
     }
 
     /**
-     * Parses the JSONObject into a Java bean and sends the parsed {@link GerritEvent} down the inheritance chain.
-     * @param json the JSONObject to work on.
+     * Parses the JsonObject into a Java bean and sends the parsed {@link GerritEvent} down the inheritance chain.
+     * @param json the JsonObject to work on.
      * @param coordinator the coordinator.
      * @param provider the Gerrit server info
      */
-    protected void perform(JSONObject json, Coordinator coordinator, Provider provider) {
+    protected void perform(JsonObject json, Coordinator coordinator, Provider provider) {
         logger.trace("Extracting event from JSON.");
         GerritEvent event = GerritJsonEventFactory.getEvent(json);
         if (event != null) {

@@ -35,8 +35,8 @@
 
         <mwiede.jsch.version>0.2.13</mwiede.jsch.version>
         <apache.sshd.version>2.11.0</apache.sshd.version>
-        <httpclient.version>4.5.14</httpclient.version><!-- TODO: update to latest -->
-        <jetty-server.version>9.4.53.v20231009</jetty-server.version><!-- TODO: update to latest -->
+        <httpclient5.version>5.2.3</httpclient5.version>
+        <jetty-server.version>11.0.18</jetty-server.version><!-- TODO: update to latest -->
         <commons-io.version>2.15.1</commons-io.version>
         <commons-lang3.version>3.14.0</commons-lang3.version>
         <xstream.version>1.4.20</xstream.version>
@@ -105,9 +105,9 @@
             <version>${json-lib.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.apache.httpcomponents</groupId>
-            <artifactId>httpclient</artifactId>
-            <version>${httpclient.version}</version>
+            <groupId>org.apache.httpcomponents.client5</groupId>
+            <artifactId>httpclient5</artifactId>
+            <version>${httpclient5.version}</version>
         </dependency>
         <dependency>
             <groupId>commons-io</groupId>
@@ -317,8 +317,8 @@
                         </enforceBytecodeVersion>
                         <bannedDependencies>
                           <excludes>
-<!--                            <exclude>javax.servlet:javax.servlet-api</exclude>
-                            <exclude>javax.servlet:servlet-api</exclude> -->
+                            <exclude>javax.servlet:javax.servlet-api</exclude>
+                            <exclude>javax.servlet:servlet-api</exclude>
                             <exclude>org.sonatype.sisu:sisu-guice</exclude>
                             <exclude>log4j:log4j:*:jar:compile</exclude>
                             <exclude>log4j:log4j:*:jar:runtime</exclude>

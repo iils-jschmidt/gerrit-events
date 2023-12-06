@@ -29,25 +29,24 @@ import com.sonymobile.tools.gerrit.gerritevents.dto.rest.ChangeId;
 import com.sonymobile.tools.gerrit.gerritevents.dto.rest.ReviewInput;
 import com.sonymobile.tools.gerrit.gerritevents.rest.RestConnectionConfig;
 
-import org.apache.http.HttpStatus;
 import org.apache.commons.io.IOUtils;
-import org.apache.http.HttpHost;
-import org.apache.http.auth.AuthScope;
-import org.apache.http.auth.Credentials;
-import org.apache.http.client.CredentialsProvider;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.BasicCredentialsProvider;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.http.impl.client.HttpClients;
+import org.apache.hc.client5.http.auth.AuthScope;
+import org.apache.hc.client5.http.auth.Credentials;
+import org.apache.hc.client5.http.classic.methods.HttpPost;
+import org.apache.hc.client5.http.impl.auth.BasicCredentialsProvider;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpResponse;
+import org.apache.hc.client5.http.impl.classic.HttpClientBuilder;
+import org.apache.hc.client5.http.impl.classic.HttpClients;
+import org.apache.hc.core5.http.ContentType;
+import org.apache.hc.core5.http.HttpHost;
+import org.apache.hc.core5.http.HttpStatus;
+import org.apache.hc.core5.http.io.entity.StringEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.PrintStream;
-import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.concurrent.Callable;
@@ -116,14 +115,14 @@ public abstract class AbstractRestCommandJob2 implements Callable<String> {
             return response;
         }
 
-        CredentialsProvider credProvider = new BasicCredentialsProvider();
-        credProvider.setCredentials(AuthScope.ANY, credentials);
+        BasicCredentialsProvider credProvider = new BasicCredentialsProvider();
+        credProvider.setCredentials(new AuthScope(null, -1), credentials);
 
         HttpHost proxy = null;
         if (httpProxy != null && !httpProxy.isEmpty()) {
             try {
                 URL url = new URL(httpProxy);
-                proxy = new HttpHost(url.getHost(), url.getPort(), url.getProtocol());
+                proxy = new HttpHost(url.getProtocol(), url.getHost(), url.getPort());
             } catch (MalformedURLException e) {
                 logger.error("Could not parse proxy URL, attempting without proxy.", e);
                 if (altLogger != null) {
@@ -142,19 +141,24 @@ public abstract class AbstractRestCommandJob2 implements Callable<String> {
 
         try {
             CloseableHttpResponse httpResponse = httpClient.execute(httpPost);
-            response = IOUtils.toString(httpResponse.getEntity().getContent(), "UTF-8");
-
-            if (httpResponse.getStatusLine().getStatusCode() != HttpStatus.SC_OK) {
-                logger.error("Gerrit response: {}", httpResponse.getStatusLine().getReasonPhrase());
-                if (altLogger != null) {
-                    altLogger.print("ERROR Gerrit response: " + httpResponse.getStatusLine().getReasonPhrase());
+            try {
+                response = IOUtils.toString(httpResponse.getEntity().getContent(), "UTF-8");
+                if (httpResponse.getCode() != HttpStatus.SC_OK) {
+                    logger.error("Gerrit response: {}", httpResponse.getReasonPhrase());
+                    if (altLogger != null) {
+                        altLogger.print("ERROR Gerrit response: " + httpResponse.getReasonPhrase());
+                    }
                 }
+            } finally {
+                httpResponse.close();
             }
         } catch (Exception e) {
             logger.error("Failed to submit result to Gerrit", e);
             if (altLogger != null) {
                 altLogger.print("ERROR Failed to submit result to Gerrit" + e.toString());
             }
+        } finally {
+            httpClient.close();
         }
         return response;
     }
@@ -177,18 +181,7 @@ public abstract class AbstractRestCommandJob2 implements Callable<String> {
         HttpPost httpPost = new HttpPost(reviewEndpoint);
 
         String asJson = GSON.toJson(reviewInput);
-
-        StringEntity entity = null;
-        try {
-            entity = new StringEntity(asJson);
-        } catch (UnsupportedEncodingException e) {
-            logger.error("Failed to create JSON for posting to Gerrit", e);
-            if (altLogger != null) {
-                altLogger.print("ERROR Failed to create JSON for posting to Gerrit: " + e.toString());
-            }
-            return null;
-        }
-        entity.setContentType("application/json");
+        StringEntity entity = new StringEntity(asJson, ContentType.APPLICATION_JSON);
         httpPost.setEntity(entity);
         return httpPost;
     }

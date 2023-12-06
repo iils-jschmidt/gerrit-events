@@ -30,19 +30,20 @@ import com.sonymobile.tools.gerrit.gerritevents.dto.events.ChangeBasedEvent;
 import com.sonymobile.tools.gerrit.gerritevents.dto.events.PatchsetCreated;
 import com.sonymobile.tools.gerrit.gerritevents.dto.rest.ReviewInput;
 import com.sonymobile.tools.gerrit.gerritevents.rest.RestConnectionConfig;
+
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import net.sf.json.JSONObject;
 import org.apache.commons.io.IOUtils;
-import org.apache.http.auth.Credentials;
-import org.apache.http.auth.UsernamePasswordCredentials;
+import org.apache.hc.client5.http.auth.Credentials;
+import org.apache.hc.client5.http.auth.UsernamePasswordCredentials;
 import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
 import org.eclipse.jetty.server.handler.AbstractHandler;
 import org.junit.Test;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 import static org.junit.Assert.assertEquals;
@@ -124,7 +125,7 @@ public class AbstractRestCommandJob2Test {
 
             @Override
             public Credentials getHttpCredentials() {
-                return new UsernamePasswordCredentials("user", "password");
+                return new UsernamePasswordCredentials("user", "password".toCharArray());
             }
 
             @Override
@@ -179,7 +180,6 @@ public class AbstractRestCommandJob2Test {
                 targetOk = false;
             }
         }
-
 
     }
 }

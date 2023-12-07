@@ -23,7 +23,7 @@
  */
 package com.sonymobile.tools.gerrit.gerritevents.rest;
 
-import org.apache.hc.client5.http.auth.Credentials;
+import org.apache.http.auth.Credentials;
 
 /**
  * Interface for the REST specific connection values.

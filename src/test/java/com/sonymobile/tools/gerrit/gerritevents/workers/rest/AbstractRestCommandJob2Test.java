@@ -36,8 +36,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import net.sf.json.JSONObject;
 import org.apache.commons.io.IOUtils;
-import org.apache.hc.client5.http.auth.Credentials;
-import org.apache.hc.client5.http.auth.UsernamePasswordCredentials;
+import org.apache.http.auth.Credentials;
+import org.apache.http.auth.UsernamePasswordCredentials;
 import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
@@ -125,7 +125,7 @@ public class AbstractRestCommandJob2Test {
 
             @Override
             public Credentials getHttpCredentials() {
-                return new UsernamePasswordCredentials("user", "password".toCharArray());
+                return new UsernamePasswordCredentials("user", "password");
             }
 
             @Override
